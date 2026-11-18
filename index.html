@@ -94,7 +94,93 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 #ch{position:absolute;inset:0;width:100%;height:100%}
 #ov{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:4}
 
-#lay{position:absolute;top:8px;left:8px;z-index:10;display:flex;gap:4px;flex-wrap:wrap;max-width:calc(100% - 130px)}
+/* ===== NEW: Macro Bias Stack ===== */
+#macro-stack{
+  position:absolute;top:8px;left:8px;z-index:11;display:flex;gap:4px;
+  pointer-events:auto;flex-wrap:wrap;max-width:calc(100% - 200px);
+}
+.ms-pill{
+  display:flex;flex-direction:column;align-items:center;padding:3px 7px;
+  border-radius:5px;background:rgba(13,17,24,.9);border:1px solid var(--border);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  font-family:var(--font-mono);cursor:default;transition:all var(--fast);
+  min-width:36px;
+}
+.ms-pill .tf{font-size:8px;font-weight:700;letter-spacing:.5px;color:var(--text-mute);line-height:1}
+.ms-pill .bias{font-size:11px;font-weight:800;line-height:1;margin-top:2px}
+.ms-pill.bull{border-color:rgba(0,229,160,.4)}
+.ms-pill.bull .bias{color:var(--up)}
+.ms-pill.bear{border-color:rgba(255,61,90,.4)}
+.ms-pill.bear .bias{color:var(--down)}
+.ms-pill.flat .bias{color:var(--warn)}
+.ms-pill.aligned{
+  box-shadow:0 0 12px rgba(91,154,255,.4);
+  border-color:var(--accent);
+}
+
+/* ===== NEW: Liquidity Radar ===== */
+#liq-radar{
+  position:absolute;top:44px;right:12px;z-index:11;width:170px;
+  background:rgba(13,17,24,.92);border:1px solid var(--border);
+  border-radius:8px;padding:8px 10px;
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  box-shadow:var(--shadow);
+  font-family:var(--font-mono);font-size:10px;
+  opacity:0;transition:opacity var(--fast);pointer-events:none;
+  transform:translateY(-4px);
+}
+#liq-radar.show{opacity:1;pointer-events:auto;transform:none}
+#liq-radar .radar-head{
+  font-size:8.5px;font-weight:700;letter-spacing:.8px;color:var(--text-mute);
+  text-transform:uppercase;margin-bottom:6px;display:flex;justify-content:space-between;
+  align-items:center;
+}
+#liq-radar .radar-head .live-dot{
+  width:5px;height:5px;border-radius:50%;background:var(--up);
+  animation:pulse-dot 2s ease-in-out infinite;
+}
+#liq-radar .radar-row{
+  display:flex;justify-content:space-between;padding:3px 0;
+  border-bottom:1px solid var(--border);line-height:1.3;
+}
+#liq-radar .radar-row:last-child{border-bottom:0}
+#liq-radar .radar-row .lbl{font-weight:600;font-size:9px}
+#liq-radar .radar-row .lbl.bsl{color:var(--up)}
+#liq-radar .radar-row .lbl.ssl{color:var(--down)}
+#liq-radar .radar-row .val{color:var(--text);font-weight:600}
+#liq-radar .radar-row .dist{color:var(--text-mute);font-size:9px}
+
+/* ===== NEW: Price Axis Controls ===== */
+#pa-controls{
+  position:absolute;top:50%;right:6px;transform:translateY(-50%);
+  z-index:11;display:flex;flex-direction:column;gap:4px;
+  opacity:0.35;transition:opacity var(--fast);
+}
+#pa-controls:hover{opacity:1}
+#pa-controls button{
+  width:20px;height:22px;display:flex;align-items:center;justify-content:center;
+  background:rgba(6,7,10,.85);border:1px solid var(--border);
+  border-radius:4px;color:var(--text-dim);cursor:pointer;
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  transition:all var(--fast);font-size:11px;font-weight:700;
+  font-family:var(--font-mono);padding:0;
+}
+#pa-controls button:hover{color:var(--text);border-color:var(--border-2);
+  background:rgba(20,26,36,.95);opacity:1}
+#pa-controls button:active{transform:scale(.92)}
+
+/* Price axis drag hint */
+#pa-hint{
+  position:absolute;top:50%;right:32px;transform:translateY(-50%);
+  z-index:10;padding:4px 8px;background:rgba(91,154,255,.12);
+  border:1px solid rgba(91,154,255,.35);border-radius:4px;
+  font-size:10px;color:var(--accent);font-family:var(--font-ui);font-weight:500;
+  opacity:0;transition:opacity var(--med);pointer-events:none;white-space:nowrap;
+}
+#pa-hint.show{opacity:1;animation:fadeout 3s var(--ease) forwards}
+@keyframes fadeout{0%,70%{opacity:1}100%{opacity:0}}
+
+#lay{position:absolute;top:44px;left:8px;z-index:10;display:flex;gap:4px;flex-wrap:wrap;max-width:calc(100% - 200px)}
 .layer-chip{padding:4px 9px;font-size:10.5px;font-weight:500;background:rgba(13,17,24,.85);
   border:1px solid var(--border);color:var(--text-dim);border-radius:20px;cursor:pointer;
   transition:all var(--fast) var(--ease);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
@@ -116,7 +202,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   -webkit-backdrop-filter:blur(12px);font-family:var(--font-mono);pointer-events:none;
   transition:opacity var(--med);border:1px solid var(--border);letter-spacing:.2px}
 
-#mkt-banner{position:absolute;top:44px;left:50%;transform:translateX(-50%);z-index:12;
+#mkt-banner{position:absolute;top:80px;left:50%;transform:translateX(-50%);z-index:12;
   display:none;align-items:center;gap:6px;padding:5px 12px;background:rgba(255,181,71,.12);
   border:1px solid rgba(255,181,71,.35);border-radius:20px;font-size:11px;color:var(--warn);
   font-weight:600;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
@@ -133,7 +219,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 #legend .sep{color:var(--text-faint)}
 #legend .chg.up{color:var(--up)}#legend .chg.down{color:var(--down)}
 
-#chart-actions{position:absolute;top:34px;right:12px;z-index:10;display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;max-width:140px}
+#chart-actions{position:absolute;top:200px;right:12px;z-index:10;display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;max-width:140px}
 .mini-btn{width:24px;height:24px;display:flex;align-items:center;justify-content:center;
   background:rgba(6,7,10,.85);border:1px solid var(--border);border-radius:4px;color:var(--text-dim);
   cursor:pointer;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:all var(--fast)}
@@ -163,19 +249,14 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 #sheet{background:var(--surface);border-top:1px solid var(--border);flex-shrink:0;
   padding-bottom:env(safe-area-inset-bottom);position:relative;z-index:15;
   backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
-
 #tabs{display:flex;background:var(--bg-2);border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;position:relative}
 #tabs::-webkit-scrollbar{display:none}
-
-/* Collapse indicator — shown when sheet is closed */
 #sheet:not(.open) #tabs::after{
-  content:'▲';
-  position:sticky;right:0;top:50%;transform:translateY(-50%);
+  content:'▲';position:sticky;right:0;top:50%;transform:translateY(-50%);
   color:var(--text-mute);font-size:8px;margin-left:auto;padding:0 8px;
-  pointer-events:none;opacity:.6;transition:opacity var(--fast);
+  pointer-events:none;opacity:.6;
   background:linear-gradient(90deg,transparent,var(--bg-2) 40%);
 }
-
 #tabs button{flex:1;min-width:62px;padding:10px 8px;border:0;background:none;color:var(--text-mute);
   font-family:var(--font-ui);font-size:11.5px;font-weight:500;cursor:pointer;position:relative;
   transition:all var(--fast);letter-spacing:.2px;white-space:nowrap}
@@ -196,7 +277,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 #body>div{animation:fade-slide var(--med) var(--ease)}
 @keyframes fade-slide{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
-/* Confluence card */
 .confluence-card{background:linear-gradient(135deg,rgba(0,229,160,.05),rgba(255,61,90,.03));
   border:1px solid var(--border-2);border-radius:var(--radius);padding:12px;margin-bottom:12px}
 .confluence-card .conf-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
@@ -231,6 +311,25 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .structure-card .sc-metrics .k{color:var(--text-mute);font-size:9.5px;text-transform:uppercase;letter-spacing:.4px;font-weight:600}
 .structure-card .sc-metrics .v{color:var(--text);font-weight:600;font-variant-numeric:tabular-nums}
 .structure-card .sc-metrics .v.up{color:var(--up)}.structure-card .sc-metrics .v.down{color:var(--down)}
+
+/* NEW: Target zones card */
+.target-card{background:linear-gradient(135deg,rgba(255,157,91,.06),rgba(255,61,90,.03));
+  border:1px solid rgba(255,157,91,.25);border-radius:var(--radius);padding:12px;margin-bottom:12px}
+.target-card .tc-head{font-size:10px;font-weight:700;color:var(--warn);text-transform:uppercase;
+  letter-spacing:.8px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.target-card .tc-head .auto-dot{width:6px;height:6px;border-radius:50%;background:var(--up);
+  animation:pulse-dot 2s ease-in-out infinite;display:inline-block;margin-right:5px}
+.target-card .tg-row{display:flex;justify-content:space-between;align-items:center;
+  padding:6px 8px;margin-bottom:4px;border-radius:5px;background:var(--bg);border:1px solid var(--border);
+  font-size:11.5px;font-family:var(--font-mono)}
+.target-card .tg-row.bsl{border-left:3px solid var(--up)}
+.target-card .tg-row.ssl{border-left:3px solid var(--down)}
+.target-card .tg-row .tg-type{font-weight:700;font-size:9px;letter-spacing:.5px}
+.target-card .tg-row.bsl .tg-type{color:var(--up)}
+.target-card .tg-row.ssl .tg-type{color:var(--down)}
+.target-card .tg-row .tg-price{color:var(--text);font-weight:700}
+.target-card .tg-row .tg-src{color:var(--text-mute);font-size:9px;margin-left:6px;font-weight:500}
+.target-card .tg-row .tg-dist{color:var(--text-dim);font-size:10px;margin-left:auto}
 
 .kv-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
 .kv-cell{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm);
@@ -324,7 +423,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .data-table td:first-child,.data-table th:first-child{text-align:left}
 .data-table td.up{color:var(--up)}.data-table td.down{color:var(--down)}
 
-.fs #bar,.fs #sheet,.fs #tk,.fs #lay{display:none}
+.fs #bar,.fs #sheet,.fs #tk,.fs #lay,.fs #macro-stack{display:none}
 .fs #cw{min-height:100dvh;flex:1}
 
 #lp{display:none;position:absolute;top:44px;left:8px;z-index:30;background:rgba(13,17,24,.97);
@@ -361,9 +460,13 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   .pill-select#sym-wrap select{max-width:130px;min-width:95px}
   #px{min-width:100px;padding-left:6px}
   #px .p-main{font-size:14px}
-  #lay{max-width:calc(100% - 130px)}
+  #lay{max-width:calc(100% - 190px)}
   .layer-chip{padding:3px 7px;font-size:10px}
   #chart-actions{max-width:110px}
+  #liq-radar{width:150px;font-size:9px}
+  #macro-stack{max-width:calc(100% - 190px)}
+  .ms-pill{min-width:32px;padding:2px 5px}
+  .ms-pill .bias{font-size:10px}
 }
 </style>
 </head>
@@ -398,8 +501,19 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   <div id="cw">
     <div id="ch"></div>
     <canvas id="ov"></canvas>
+    <div id="macro-stack"></div>
     <div id="lay"></div>
     <div id="legend"></div>
+    <div id="liq-radar">
+      <div class="radar-head"><span>Liquidity Radar</span><span class="live-dot"></span></div>
+      <div id="liq-radar-body"></div>
+    </div>
+    <div id="pa-controls">
+      <button id="pa-stretch-in" title="Stretch candles (zoom in vertically)">−</button>
+      <button id="pa-stretch-out" title="Compress candles (zoom out vertically)">+</button>
+      <button id="pa-reset" title="Reset price scale">↺</button>
+    </div>
+    <div id="pa-hint">Drag right axis to stretch</div>
     <div id="mkt-banner">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
       <span id="mkt-banner-text">Market closed</span>
@@ -519,6 +633,13 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     chart:null, series:null, volSeries:null, cvdSeries:null,
     indSeries:{}, overlay:null, overlayCtx:null, _sizeAll:null, _ro:null,
     ws:null, log:[], equity:10000, risk:1, src:'',
+    // NEW: auto engine
+    autoEngine: true,
+    macroStack: null,     // {W, D, HTF}
+    liquidityTargets: null,
+    confluenceZones: [],
+    _autoTimer: null,
+    _lastAutoSignature: '',
     layers:{
       swings:1, swingLabels:1, bos:1, sr:1, trendlines:0,
       ob:1, fvg:1, sweeps:1, eqhl:1, idm:1, breakers:1, htfOB:1,
@@ -526,28 +647,32 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       liq:0, pd:0, sessions:0, fib:0, wyckoff:0,
       ema:0, vwap:0, bb:0, supertrend:0, vprofile:0,
       volPanel:1, cvd:0, absorption:1, anchoredVwap:1, volSpikes:1,
-      patterns:0, confluence:1
+      patterns:0, confluence:1,
+      // NEW: auto engine visuals
+      autoTargets:1, autoConfluence:1, macroStack:1
     },
     loading:false, lastUpdate:0, price:null, change:null,
     marketStatus:'unknown', staleCandles:false
   };
 
   try {
-    const s = JSON.parse(localStorage.getItem('jugnuu_v1') || '{}');
+    const s = JSON.parse(localStorage.getItem('jugnuu_v2') || '{}');
     if (s.tf) STATE.tf = s.tf;
     if (s.chartType) STATE.chartType = s.chartType;
     if (s.layers) Object.assign(STATE.layers, s.layers);
     if (s.equity) STATE.equity = s.equity;
     if (s.risk) STATE.risk = s.risk;
     if (s.asset) STATE._savedAsset = s.asset;
+    if (typeof s.autoEngine === 'boolean') STATE.autoEngine = s.autoEngine;
     STATE.log = JSON.parse(localStorage.getItem('jugnuu_log') || '[]');
   } catch(e) {}
 
   const save = () => {
     try {
-      localStorage.setItem('jugnuu_v1', JSON.stringify({
+      localStorage.setItem('jugnuu_v2', JSON.stringify({
         tf:STATE.tf, chartType:STATE.chartType, layers:STATE.layers,
-        equity:STATE.equity, risk:STATE.risk, asset:STATE.asset?STATE.asset.s:null
+        equity:STATE.equity, risk:STATE.risk, asset:STATE.asset?STATE.asset.s:null,
+        autoEngine:STATE.autoEngine
       }));
       localStorage.setItem('jugnuu_log', JSON.stringify(STATE.log.slice(0,40)));
     } catch(e) {}
@@ -660,7 +785,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   };
 
   // ================================================================
-  // INDICATORS
+  // INDICATORS (unchanged)
   // ================================================================
   const computeATR = (candles, period = 14) => {
     if (candles.length < 2) return 0;
@@ -749,7 +874,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   };
 
   // ================================================================
-  // NEW: CVD, Anchored VWAP, Absorption, Opening Range, Naked POC
+  // CVD / AVWAP / Absorption / ORB / nPOC (unchanged)
   // ================================================================
   const computeCVD = (candles) => {
     const out = [];
@@ -917,7 +1042,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   };
 
   // ================================================================
-  // SWINGS
+  // SWINGS / STRUCTURE / OB / FVG / SWEEPS / EQHL / IDM (unchanged)
   // ================================================================
   const detectSwings = (candles, k = 3) => {
     const sh = [], sl = [];
@@ -955,7 +1080,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     }
     return out.filter(s => n-1-s.p <= 200).slice(-count);
   };
-
   const detectStructure = (candles, swings) => {
     const events = [];
     let trend = 0;
@@ -989,7 +1113,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     if (recentChoch) state = recentChoch.dir > 0 ? 'bullish-reversal' : 'bearish-reversal';
     return {events, state, trend, lastEvent:last};
   };
-
   const detectOrderBlocks = (candles, structureEvents, atr) => {
     const obs = [];
     const n = candles.length;
@@ -1022,7 +1145,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     });
     return obs.slice(-5);
   };
-
   const detectBreakers = (candles, structureEvents, atr) => {
     const breakers = [];
     const n = candles.length;
@@ -1056,7 +1178,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     });
     return breakers.slice(-3);
   };
-
   const detectFVG = (candles, atr) => {
     const out = [];
     const n = candles.length;
@@ -1076,7 +1197,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     }
     return out.slice(-4);
   };
-
   const detectSweeps = (candles, swings, atr) => {
     const sweeps = [];
     const n = candles.length;
@@ -1100,7 +1220,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     });
     return sweeps.sort((a,b) => b.time - a.time).slice(0, 4);
   };
-
   const detectEqualLevels = (candles, swings, atr) => {
     const eqh = [], eql = [];
     const hi = swings.sh.slice(-10);
@@ -1125,7 +1244,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     }
     return {eqh:eqh.filter(e => !e.swept).slice(-3), eql:eql.filter(e => !e.swept).slice(-3)};
   };
-
   const detectInducement = (candles, swings, structure, atr) => {
     const idms = [];
     structure.slice(-3).forEach(ev => {
@@ -1150,7 +1268,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     });
     return idms.slice(-3);
   };
-
   const detectPrevDayWeek = (candles) => {
     const out = {};
     if (candles.length < 30) return out;
@@ -1182,7 +1299,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     }
     return out;
   };
-
   const getNYTime = (t) => {
     const d = new Date(t*1000);
     const parts = new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',hour:'2-digit',minute:'2-digit',hour12:false}).formatToParts(d);
@@ -1190,7 +1306,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     const m = +(parts.find(p => p.type==='minute')?.value || 0);
     return {h, m};
   };
-
   const detectSessionHL = (candles) => {
     const sessions = [];
     let cur = null;
@@ -1216,7 +1331,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     sessions.forEach(s => { lastByType[s.name] = s; });
     return Object.values(lastByType);
   };
-
   const detectSessions = (candles) => {
     const sessions = [];
     let cur = null;
@@ -1235,7 +1349,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     });
     return sessions;
   };
-
   const detectSR = (candles, swings, atr) => {
     const all = [...swings.sh.map(s => ({...s, kind:'res'})), ...swings.sl.map(s => ({...s, kind:'sup'}))]
       .sort((a,b) => b.price - a.price);
@@ -1252,7 +1365,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
         strength: clamp(30 + c.count*20, 30, 100)}))
       .sort((a,b) => b.strength - a.strength).slice(0, 6);
   };
-
   const detectTrendlines = (candles, swings, atr) => {
     const out = [];
     const tryLines = (pts, isSup) => {
@@ -1286,7 +1398,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     tryLines(swings.sh, false);
     return out;
   };
-
   const detectLiquidity = (candles, swings, atr) => {
     const pools = [];
     const push = (s, kind) => {
@@ -1304,7 +1415,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     });
     return merged.sort((a,b) => b.count - a.count).slice(0, 5);
   };
-
   const detectFib = (candles, swings, atr) => {
     const lastH = swings.sh[swings.sh.length-1];
     const lastL = swings.sl[swings.sl.length-1];
@@ -1323,7 +1433,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       extensions: [1.272, 1.618, 2.0].map(r => ({r, p:ext(r)}))
     };
   };
-
   const detectPD = (candles, swings) => {
     const lastH = swings.sh[swings.sh.length-1];
     const lastL = swings.sl[swings.sl.length-1];
@@ -1335,7 +1444,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     const pos = (cur-low)/(high-low);
     return { high, low, mid, cur, pos, zone: pos > 0.5 ? 'premium' : 'discount', eq: mid };
   };
-
   const computeVolumeProfile = (candles, bins = 40) => {
     const win = candles.slice(-200);
     if (!win.length) return null;
@@ -1358,7 +1466,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     }
     return { vlo, vhi, step, profile, max, poc: vlo + (poc+0.5)*step, vah: vlo + (hi+1)*step, val: vlo + lo*step };
   };
-
   const detectPatterns = (candles, swings, atr) => {
     const out = [];
     const {sh, sl} = swings;
@@ -1414,7 +1521,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     }
     return out.slice(0, 3);
   };
-
   const detectRegime = (candles, atr) => {
     const n = candles.length;
     const lb = Math.min(30, n-1);
@@ -1430,7 +1536,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     else kind = 'Range / consolidation';
     return {er, slope, kind};
   };
-
   const detectDivergence = (candles, swings, rsi) => {
     const out = [];
     const n = candles.length;
@@ -1450,7 +1555,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     }
     return out.slice(-2);
   };
-
   const detectVolumeSpikes = (candles) => {
     const out = [];
     const n = candles.length;
@@ -1464,7 +1568,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   };
 
   // ================================================================
-  // MASTER ANALYSIS
+  // MASTER ANALYSIS (with new fields)
   // ================================================================
   const analyze = (candles, tf) => {
     if (!candles || candles.length < 20) return null;
@@ -1505,14 +1609,12 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     const inducements = detectInducement(candles, rawSwings, structure.events, atr);
     const volumeSpikes = detectVolumeSpikes(candles);
 
-    // NEW institutional
     const cvd = computeCVD(candles);
     const cvdDivergence = detectCVDdivergence(candles, cvd, rawSwings);
     const absorption = detectAbsorption(candles, atr);
     const openingRange = detectOpeningRange(candles);
     const nakedPOC = detectNakedPOC(candles);
 
-    // Anchored VWAP from last significant swing
     let anchoredVwap = null, anchorInfo = null;
     if (sigSh.length && sigSl.length) {
       const lastH = sigSh[sigSh.length-1];
@@ -1522,7 +1624,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       anchorInfo = { type: lastH.p > lastL.p ? 'high' : 'low', time: anchor.time, price: anchor.price };
     }
 
-    // Bias scoring
     let score = 0;
     const reasons = [];
     const lastEv = structure.lastEvent;
@@ -1557,7 +1658,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       score += sw.dir * 10;
       reasons.push({dir:sw.dir, text:`${sw.dir > 0 ? 'Bullish' : 'Bearish'} sweep @ ${fmtPrice(sw.price)}`});
     });
-    // New signals
     if (absorption.length) {
       const abs = absorption[absorption.length-1];
       score += abs.dir * 8;
@@ -1588,6 +1688,143 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       cvd, cvdDivergence, absorption, openingRange, nakedPOC, anchoredVwap, anchorInfo,
       bias, biasDir, score, reasons, nearestRes, nearestSup, tf
     };
+  };
+
+  // ================================================================
+  // NEW: AUTONOMOUS LIQUIDITY ENGINE
+  // ================================================================
+  const analyzeLiquidityTargets = (a) => {
+    if (!a) return null;
+    const price = a.price;
+    const atr = a.atr;
+    const sources = [];
+
+    a.swings.sh.slice(-12).forEach(s => {
+      if (s.price > price + atr * 0.05) sources.push({ type:'BSL', price: s.price, src:'swing', time: s.time });
+    });
+    a.swings.sl.slice(-12).forEach(s => {
+      if (s.price < price - atr * 0.05) sources.push({ type:'SSL', price: s.price, src:'swing', time: s.time });
+    });
+    a.equalLevels.eqh.forEach(eq => {
+      if (eq.price > price + atr * 0.05) sources.push({ type:'BSL', price: eq.price, src:'EQH', time: eq.time2 });
+    });
+    a.equalLevels.eql.forEach(eq => {
+      if (eq.price < price - atr * 0.05) sources.push({ type:'SSL', price: eq.price, src:'EQL', time: eq.time2 });
+    });
+    if (a.prevDayWeek.pdh && a.prevDayWeek.pdh > price + atr*0.05)
+      sources.push({ type:'BSL', price: a.prevDayWeek.pdh, src:'PDH' });
+    if (a.prevDayWeek.pdl && a.prevDayWeek.pdl < price - atr*0.05)
+      sources.push({ type:'SSL', price: a.prevDayWeek.pdl, src:'PDL' });
+    if (a.prevDayWeek.pwh && a.prevDayWeek.pwh > price + atr*0.05)
+      sources.push({ type:'BSL', price: a.prevDayWeek.pwh, src:'PWH' });
+    if (a.prevDayWeek.pwl && a.prevDayWeek.pwl < price - atr*0.05)
+      sources.push({ type:'SSL', price: a.prevDayWeek.pwl, src:'PWL' });
+    a.sessionHL.forEach(s => {
+      if (s.hi > price + atr*0.05) sources.push({ type:'BSL', price: s.hi, src: s.name + 'H' });
+      if (s.lo < price - atr*0.05) sources.push({ type:'SSL', price: s.lo, src: s.name + 'L' });
+    });
+    a.ob.forEach(o => {
+      if (o.dir > 0 && o.hi > price + atr*0.05)
+        sources.push({ type:'SSL', price: o.hi, src:'OB-' });
+      if (o.dir < 0 && o.lo < price - atr*0.05)
+        sources.push({ type:'BSL', price: o.lo, src:'OB+' });
+    });
+    a.nakedPOC.forEach(np => {
+      if (np.price > price) sources.push({ type:'BSL', price: np.price, src:'nPOC' });
+      else sources.push({ type:'SSL', price: np.price, src:'nPOC' });
+    });
+
+    const clusters = [];
+    sources.sort((x,y) => x.price - y.price).forEach(src => {
+      const last = clusters[clusters.length - 1];
+      if (last && Math.abs(last.price - src.price) < atr * 0.4) {
+        last.sources.push(src);
+        last.price = (last.price * (last.sources.length - 1) + src.price) / last.sources.length;
+        last.strength = last.sources.length;
+      } else {
+        clusters.push({ price: src.price, type: src.type, sources: [src], strength: 1 });
+      }
+    });
+
+    const above = clusters.filter(c => c.price > price).sort((a,b) => a.price - b.price);
+    const below = clusters.filter(c => c.price < price).sort((a,b) => b.price - a.price);
+    return {
+      above: above.slice(0, 4),
+      below: below.slice(0, 4),
+      nearestAbove: above[0] || null,
+      nearestBelow: below[0] || null,
+      lastScan: Date.now()
+    };
+  };
+
+  // ================================================================
+  // NEW: CONFLUENCE ZONE DETECTOR
+  // ================================================================
+  const detectConfluenceZones = (a) => {
+    if (!a) return [];
+    const zones = [];
+    const atr = a.atr;
+    const overlaps = (lo1, hi1, lo2, hi2) => lo1 <= hi2 && lo2 <= hi1;
+
+    // OB + HVN overlap
+    if (a.vprofile) {
+      a.ob.forEach(ob => {
+        for (let i = 0; i < a.vprofile.profile.length; i++) {
+          const binCenter = a.vprofile.vlo + (i + 0.5) * a.vprofile.step;
+          const binValue = a.vprofile.profile[i];
+          if (binValue > a.vprofile.max * 0.7 && binCenter >= ob.lo && binCenter <= ob.hi) {
+            zones.push({
+              type: 'OB+HVN', dir: ob.dir, lo: ob.lo, hi: ob.hi,
+              price: binCenter, strength: 2, sources: ['OB', 'HVN']
+            });
+            break;
+          }
+        }
+      });
+    }
+
+    // FVG + swing level
+    a.fvg.forEach(f => {
+      const swingHits = [...a.swings.sh, ...a.swings.sl].filter(s =>
+        s.price >= f.lo && s.price <= f.hi
+      );
+      if (swingHits.length >= 1) {
+        zones.push({
+          type: 'FVG+Swing', dir: f.dir, lo: f.lo, hi: f.hi,
+          price: (f.lo + f.hi) / 2, strength: 2, sources: ['FVG', 'Swing']
+        });
+      }
+    });
+
+    // OB + FVG overlap
+    a.ob.forEach(ob => {
+      a.fvg.forEach(f => {
+        if (f.dir === ob.dir && overlaps(ob.lo, ob.hi, f.lo, f.hi)) {
+          const lo = Math.max(ob.lo, f.lo);
+          const hi = Math.min(ob.hi, f.hi);
+          if (hi - lo > atr * 0.2) {
+            zones.push({
+              type: 'OB+FVG', dir: ob.dir, lo, hi,
+              price: (lo + hi) / 2, strength: 3, sources: ['OB', 'FVG']
+            });
+          }
+        }
+      });
+    });
+
+    // Deduplicate overlapping zones
+    const merged = [];
+    zones.sort((a,b) => b.strength - a.strength).forEach(z => {
+      const existing = merged.find(m => overlaps(m.lo, m.hi, z.lo, z.hi) && m.dir === z.dir);
+      if (existing) {
+        existing.strength += z.strength;
+        existing.sources = [...new Set([...existing.sources, ...z.sources])];
+      } else {
+        merged.push({...z});
+      }
+    });
+
+    return merged.slice(0, 6);
   };
 
   // ================================================================
@@ -1627,7 +1864,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   };
 
   // ================================================================
-  // CHART
+  // CHART (enhanced interaction for TradingView-style drag)
   // ================================================================
   const chartOpts = () => ({
     layout: {
@@ -1651,8 +1888,18 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       scaleMargins: {top:0.06, bottom:0.24},
       autoScale: true
     },
-    handleScroll: {mouseWheel:true, pressedMouseMove:true, horzTouchDrag:true, vertTouchDrag:false},
-    handleScale: {axisPressedMouseMove:true, mouseWheel:true, pinch:true}
+    // NEW: TradingView-style interaction
+    handleScroll: {
+      mouseWheel: {time: true, price: false},
+      pressedMouseMove: {time: true, price: false},
+      horzTouchDrag: true,
+      vertTouchDrag: false
+    },
+    handleScale: {
+      axisPressedMouseMove: {time: true, price: true},  // enables right-axis drag for price stretch
+      mouseWheel: {time: true, price: false},
+      pinch: true
+    }
   });
 
   const initChart = () => {
@@ -1691,6 +1938,13 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     STATE.chart.timeScale().subscribeVisibleLogicalRangeChange(() => {
       requestAnimationFrame(drawOverlay);
     });
+
+    // Show price axis hint on first load
+    setTimeout(() => {
+      const hint = $('#pa-hint');
+      hint.classList.add('show');
+      setTimeout(() => hint.classList.remove('show'), 3500);
+    }, 2000);
   };
 
   const updateLegend = (param) => {
@@ -1712,6 +1966,37 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       `<span class="sep">|</span>` +
       `<span class="chg ${cls}">${fmtPct(chg)}</span>`;
     $('#legend').classList.add('show');
+  };
+
+  // NEW: Price axis vertical stretch controls
+  const adjustPriceZoom = (factor) => {
+    if (!STATE.chart) return;
+    try {
+      const ps = STATE.chart.priceScale('right');
+      const opts = ps.options();
+      const total = opts.scaleMargins.top + opts.scaleMargins.bottom;
+      const ratio = opts.scaleMargins.top / total;
+      const newTotal = clamp(total * factor, 0.02, 0.60);
+      ps.applyOptions({
+        scaleMargins: {
+          top: newTotal * ratio,
+          bottom: newTotal * (1 - ratio)
+        }
+      });
+      setTimeout(drawOverlay, 30);
+    } catch(e) {}
+  };
+  const resetPriceZoom = () => {
+    if (!STATE.chart) return;
+    try {
+      const showVol = STATE.layers.volPanel;
+      const showCvd = STATE.layers.cvd;
+      const bottom = (showVol || showCvd) ? 0.24 : 0.14;
+      STATE.chart.priceScale('right').applyOptions({
+        scaleMargins: {top: 0.06, bottom}
+      });
+      setTimeout(drawOverlay, 30);
+    } catch(e) {}
   };
 
   const buildSeries = () => {
@@ -1772,7 +2057,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       }
     }
 
-    // Panel: volume OR CVD (mutually exclusive)
     const showVol = STATE.layers.volPanel;
     const showCvd = STATE.layers.cvd;
     if (showVol) {
@@ -1853,12 +2137,8 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       const av = STATE.analysis.anchoredVwap;
       if (av.length) {
         const s = STATE.chart.addLineSeries({
-          color: 'rgba(255,157,91,0.85)',
-          lineWidth: 2,
-          priceLineVisible: false,
-          lastValueVisible: false,
-          crosshairMarkerVisible: false,
-          lineStyle: 0
+          color: 'rgba(255,157,91,0.85)', lineWidth: 2,
+          priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false
         });
         s.setData(av.map(x => ({ time: x.time, value: x.value })));
         STATE.indSeries.avwap = s;
@@ -1882,7 +2162,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   };
 
   // ================================================================
-  // OVERLAY
+  // OVERLAY (with new auto targets & confluence zones)
   // ================================================================
   const drawOverlay = () => {
     if (!STATE.overlayCtx || !STATE.chart || !STATE.series || !STATE.analysis) return;
@@ -1899,6 +2179,95 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     const yOf = p => series.priceToCoordinate(p);
     const n = candles.length;
 
+    // ============ NEW: AUTO LIQUIDITY TARGET ZONES (drawn first, behind) ============
+    if (STATE.layers.autoTargets && STATE.liquidityTargets) {
+      const t = STATE.liquidityTargets;
+      // Buy-side liquidity above (green glow - magnets UP)
+      t.above.forEach((tgt, i) => {
+        const y = yOf(tgt.price);
+        if (y == null) return;
+        const intensity = 1 - i * 0.18;
+        const bandH = 10 + (tgt.strength - 1) * 4;
+        const grad = ctx.createLinearGradient(0, y - bandH, 0, y + bandH);
+        grad.addColorStop(0, 'rgba(0,229,160,0)');
+        grad.addColorStop(0.5, `rgba(0,229,160,${0.10 * intensity * (tgt.strength / 3)})`);
+        grad.addColorStop(1, 'rgba(0,229,160,0)');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, y - bandH, rect.width - 60, bandH * 2);
+
+        ctx.strokeStyle = `rgba(0,229,160,${0.75 - i * 0.15})`;
+        ctx.lineWidth = Math.max(1, 2.5 - i * 0.4);
+        ctx.setLineDash([10, 5]);
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(rect.width - 60, y); ctx.stroke();
+        ctx.setLineDash([]);
+
+        if (i < 2) {
+          const label = `◆ BSL ${fmtPrice(tgt.price)}${tgt.strength > 1 ? ` ×${tgt.strength}` : ''}`;
+          ctx.fillStyle = `rgba(0,229,160,${0.95 - i * 0.2})`;
+          ctx.font = `700 ${9.5 - i * 0.3}px "JetBrains Mono"`;
+          ctx.textAlign = 'right';
+          ctx.fillText(label, rect.width - 64, y - 4);
+        }
+      });
+      // Sell-side liquidity below (red glow - magnets DOWN)
+      t.below.forEach((tgt, i) => {
+        const y = yOf(tgt.price);
+        if (y == null) return;
+        const intensity = 1 - i * 0.18;
+        const bandH = 10 + (tgt.strength - 1) * 4;
+        const grad = ctx.createLinearGradient(0, y - bandH, 0, y + bandH);
+        grad.addColorStop(0, 'rgba(255,61,90,0)');
+        grad.addColorStop(0.5, `rgba(255,61,90,${0.10 * intensity * (tgt.strength / 3)})`);
+        grad.addColorStop(1, 'rgba(255,61,90,0)');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, y - bandH, rect.width - 60, bandH * 2);
+
+        ctx.strokeStyle = `rgba(255,61,90,${0.75 - i * 0.15})`;
+        ctx.lineWidth = Math.max(1, 2.5 - i * 0.4);
+        ctx.setLineDash([10, 5]);
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(rect.width - 60, y); ctx.stroke();
+        ctx.setLineDash([]);
+
+        if (i < 2) {
+          const label = `◆ SSL ${fmtPrice(tgt.price)}${tgt.strength > 1 ? ` ×${tgt.strength}` : ''}`;
+          ctx.fillStyle = `rgba(255,61,90,${0.95 - i * 0.2})`;
+          ctx.font = `700 ${9.5 - i * 0.3}px "JetBrains Mono"`;
+          ctx.textAlign = 'right';
+          ctx.fillText(label, rect.width - 64, y + 12);
+        }
+      });
+    }
+
+    // ============ NEW: CONFLUENCE ZONES ============
+    if (STATE.layers.autoConfluence && STATE.confluenceZones) {
+      STATE.confluenceZones.forEach(z => {
+        const y1 = yOf(z.hi);
+        const y2 = yOf(z.lo);
+        if (y1 == null || y2 == null) return;
+        const isBull = z.dir > 0;
+        const baseColor = isBull ? '0,229,160' : '255,61,90';
+        const glowAlpha = 0.06 + z.strength * 0.025;
+        // Glowing band
+        ctx.fillStyle = `rgba(${baseColor},${glowAlpha})`;
+        ctx.fillRect(0, y1, rect.width - 60, y2 - y1);
+        // Outer glow
+        ctx.strokeStyle = `rgba(${baseColor},0.65)`;
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([4, 3]);
+        ctx.beginPath();
+        ctx.rect(0, y1, rect.width - 60, y2 - y1);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        // Label
+        ctx.fillStyle = `rgba(${baseColor},0.95)`;
+        ctx.font = '700 8.5px "JetBrains Mono"';
+        ctx.textAlign = 'left';
+        const labelY = y1 + 11;
+        ctx.fillText(`⚡ ${z.type}`, 6, labelY);
+      });
+    }
+
+    // ============ Existing layers (unchanged) ============
     if (STATE.layers.sessions) {
       a.sessions.forEach(s => {
         const x1 = xOf(s.startTime), x2 = xOf(s.endTime);
@@ -1930,7 +2299,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       }
     }
 
-    // PDH/PDL/PWH/PWL
     if (STATE.layers.pdhPdl && a.prevDayWeek) {
       const dw = a.prevDayWeek;
       const drawLevel = (price, label, color) => {
@@ -1950,7 +2318,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       drawLevel(dw.pwl, `PWL ${fmtPrice(dw.pwl)}`, 'rgba(184,141,255,0.75)');
     }
 
-    // Session H/L
     if (STATE.layers.sessionHL && a.sessionHL) {
       a.sessionHL.forEach(s => {
         const yH = yOf(s.hi), yL = yOf(s.lo);
@@ -1968,7 +2335,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       });
     }
 
-    // Opening Range
     if (STATE.layers.openingRange && a.openingRange) {
       const or = a.openingRange;
       const yH = yOf(or.hi), yL = yOf(or.lo);
@@ -1989,14 +2355,12 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       }
     }
 
-    // Naked POC
     if (STATE.layers.nakedPoc && a.nakedPOC) {
       a.nakedPOC.forEach(np => {
         const y = yOf(np.price);
         if (y == null) return;
         ctx.strokeStyle = 'rgba(255,157,91,0.6)';
-        ctx.lineWidth = 1;
-        ctx.setLineDash([2,2]);
+        ctx.lineWidth = 1; ctx.setLineDash([2,2]);
         ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(rect.width - 60, y); ctx.stroke();
         ctx.setLineDash([]);
         ctx.fillStyle = 'rgba(255,157,91,0.95)';
@@ -2005,7 +2369,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       });
     }
 
-    // S/R
     if (STATE.layers.sr) {
       a.sr.forEach(s => {
         const y = yOf(s.price);
@@ -2022,7 +2385,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       });
     }
 
-    // Fib
     if (STATE.layers.fib && a.fib) {
       a.fib.levels.forEach(l => {
         const y = yOf(l.p);
@@ -2035,7 +2397,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       });
     }
 
-    // PD zones
     if (STATE.layers.pd && a.pd) {
       const eqY = yOf(a.pd.mid), hiY = yOf(a.pd.high), loY = yOf(a.pd.low);
       if (eqY != null && hiY != null && loY != null) {
@@ -2051,7 +2412,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       }
     }
 
-    // HTF OBs
     if (STATE.layers.htfOB && STATE.htfAnalysis) {
       STATE.htfAnalysis.ob.forEach(o => {
         const y1 = yOf(o.hi), y2 = yOf(o.lo);
@@ -2059,8 +2419,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
         const isBull = o.dir > 0;
         ctx.strokeStyle = isBull ? 'rgba(0,229,160,0.35)' : 'rgba(255,61,90,0.35)';
         ctx.fillStyle = isBull ? 'rgba(0,229,160,0.04)' : 'rgba(255,61,90,0.04)';
-        ctx.lineWidth = 1;
-        ctx.setLineDash([10, 5]);
+        ctx.lineWidth = 1; ctx.setLineDash([10, 5]);
         ctx.beginPath(); ctx.rect(0, y1, rect.width - 60, y2 - y1); ctx.fill(); ctx.stroke();
         ctx.setLineDash([]);
         ctx.fillStyle = isBull ? 'rgba(0,229,160,0.8)' : 'rgba(255,61,90,0.8)';
@@ -2069,7 +2428,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       });
     }
 
-    // Order Blocks
     if (STATE.layers.ob) {
       a.ob.forEach(o => {
         const x1 = xOf(o.time);
@@ -2095,7 +2453,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       });
     }
 
-    // Breakers
     if (STATE.layers.breakers) {
       a.breakers.forEach(b => {
         const x1 = xOf(b.time);
@@ -2115,7 +2472,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       });
     }
 
-    // FVGs
     if (STATE.layers.fvg) {
       a.fvg.forEach(f => {
         const x1 = xOf(f.time);
@@ -2134,7 +2490,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       });
     }
 
-    // Trendlines
     if (STATE.layers.trendlines) {
       a.trendlines.forEach(tl => {
         const x1 = xOf(tl.a.t);
@@ -2148,7 +2503,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       });
     }
 
-    // Liquidity pools
     if (STATE.layers.liq) {
       a.liq.forEach(l => {
         const y = yOf(l.price);
@@ -2165,7 +2519,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       });
     }
 
-    // Sweeps
     if (STATE.layers.sweeps) {
       a.sweeps.forEach(sw => {
         const x = xOf(sw.time);
@@ -2189,7 +2542,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       });
     }
 
-    // Equal H/L
     if (STATE.layers.eqhl) {
       const drawEQ = (eq, kind) => {
         const y = yOf(eq.price);
@@ -2210,7 +2562,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       a.equalLevels.eql.forEach(e => drawEQ(e, 'eql'));
     }
 
-    // Inducement
     if (STATE.layers.idm) {
       a.inducements.forEach(idm => {
         const x = xOf(idm.time), y = yOf(idm.price);
@@ -2223,7 +2574,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       });
     }
 
-    // Absorption markers
     if (STATE.layers.absorption && a.absorption) {
       a.absorption.forEach(abs => {
         const x = xOf(abs.time), y = yOf(abs.price);
@@ -2231,19 +2581,12 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
         const isBull = abs.dir > 0;
         ctx.fillStyle = isBull ? 'rgba(0,229,160,0.9)' : 'rgba(255,61,90,0.9)';
         ctx.beginPath();
-        ctx.moveTo(x, y - 6);
-        ctx.lineTo(x + 5, y);
-        ctx.lineTo(x, y + 6);
-        ctx.lineTo(x - 5, y);
-        ctx.closePath();
-        ctx.fill();
-        ctx.strokeStyle = 'rgba(0,0,0,0.5)';
-        ctx.lineWidth = 1;
-        ctx.stroke();
+        ctx.moveTo(x, y - 6); ctx.lineTo(x + 5, y); ctx.lineTo(x, y + 6); ctx.lineTo(x - 5, y);
+        ctx.closePath(); ctx.fill();
+        ctx.strokeStyle = 'rgba(0,0,0,0.5)'; ctx.lineWidth = 1; ctx.stroke();
       });
     }
 
-    // Swing labels
     if (STATE.layers.swingLabels) {
       const recentSigSh = a.swings.sigSh.filter(s => n-1-s.p <= 100);
       const recentSigSl = a.swings.sigSl.filter(s => n-1-s.p <= 100);
@@ -2266,7 +2609,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       recentSigSl.forEach((s, i) => drawLabel(s, i > 0 ? recentSigSl[i-1] : null, 'low'));
     }
 
-    // BOS / CHoCH
     if (STATE.layers.bos) {
       a.structure.events.slice(-5).forEach(ev => {
         const x = xOf(ev.time), y = yOf(ev.level);
@@ -2282,7 +2624,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       });
     }
 
-    // Patterns
     if (STATE.layers.patterns) {
       a.patterns.forEach(p => {
         if (!p.points || p.points.length < 2) return;
@@ -2308,7 +2649,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       });
     }
 
-    // Last price dot
     const lastPrice = candles[candles.length-1].close;
     const lastY = yOf(lastPrice);
     if (lastY != null) {
@@ -2317,6 +2657,93 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     }
   };
 
+  // ================================================================
+  // AUTONOMOUS ENGINE TICK
+  // ================================================================
+  const runAutoEngine = () => {
+    if (!STATE.analysis) return;
+    // Detect liquidity targets
+    const targets = analyzeLiquidityTargets(STATE.analysis);
+    STATE.liquidityTargets = targets;
+    // Detect confluence zones
+    STATE.confluenceZones = detectConfluenceZones(STATE.analysis);
+    // Update radar display
+    updateLiquidityRadar();
+    // Redraw overlay
+    drawOverlay();
+  };
+
+  const updateLiquidityRadar = () => {
+    const radar = $('#liq-radar');
+    const body = $('#liq-radar-body');
+    if (!radar || !body) return;
+    const t = STATE.liquidityTargets;
+    if (!t || (!t.nearestAbove && !t.nearestBelow)) {
+      radar.classList.remove('show');
+      return;
+    }
+    radar.classList.add('show');
+    const price = STATE.analysis.price;
+    const rows = [];
+    // Nearest SSL (below) - magnet DOWN
+    t.below.slice(0, 2).forEach((tg, i) => {
+      const dist = (price - tg.price) / price * 100;
+      const age = i === 0 ? 'Nearest' : '2nd';
+      rows.push(`
+        <div class="radar-row">
+          <span class="lbl ssl">SSL ${age}</span>
+          <span class="val">${fmtPrice(tg.price)}</span>
+          <span class="dist">−${dist.toFixed(2)}%</span>
+        </div>
+      `);
+    });
+    // Nearest BSL (above) - magnet UP
+    t.above.slice(0, 2).forEach((tg, i) => {
+      const dist = (tg.price - price) / price * 100;
+      const age = i === 0 ? 'Nearest' : '2nd';
+      rows.push(`
+        <div class="radar-row">
+          <span class="lbl bsl">BSL ${age}</span>
+          <span class="val">${fmtPrice(tg.price)}</span>
+          <span class="dist">+${dist.toFixed(2)}%</span>
+        </div>
+      `);
+    });
+    body.innerHTML = rows.join('');
+  };
+
+  // ================================================================
+  // MACRO BIAS STACK
+  // ================================================================
+  const updateMacroStack = () => {
+    const el = $('#macro-stack');
+    if (!el) return;
+    if (!STATE.layers.macroStack || !STATE.analysis) { el.innerHTML = ''; return; }
+    const currentBias = STATE.analysis.bias;
+    const currentDir = STATE.analysis.biasDir;
+    const pills = [];
+
+    const makePill = (tf, bias, dir) => {
+      const cls = dir > 0 ? 'bull' : dir < 0 ? 'bear' : 'flat';
+      const letter = dir > 0 ? 'B' : dir < 0 ? 'S' : 'N';
+      const aligned = dir === currentDir && dir !== 0;
+      return `<div class="ms-pill ${cls}${aligned ? ' aligned' : ''}">
+        <span class="tf">${tf}</span>
+        <span class="bias">${letter}</span>
+      </div>`;
+    };
+
+    if (STATE.macroStack?.W) pills.push(makePill('1W', STATE.macroStack.W.bias, STATE.macroStack.W.biasDir));
+    if (STATE.macroStack?.D) pills.push(makePill('1D', STATE.macroStack.D.bias, STATE.macroStack.D.biasDir));
+    if (STATE.htfAnalysis) pills.push(makePill(STATE.htfAnalysis.tf.toUpperCase(), STATE.htfAnalysis.bias, STATE.htfAnalysis.biasDir));
+    pills.push(makePill(STATE.tf.toUpperCase(), currentBias, currentDir));
+
+    el.innerHTML = pills.join('');
+  };
+
+  // ================================================================
+  // MARKET STATUS
+  // ================================================================
   const checkMarketStatus = () => {
     const last = STATE.candles[STATE.candles.length-1];
     if (!last) { STATE.marketStatus = 'unknown'; return; }
@@ -2424,13 +2851,16 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   };
   const handleLayerToggle = (k, btn) => {
     STATE.layers[k] = STATE.layers[k] ? 0 : 1;
-    // Mutually exclusive: CVD and volume panel
     if (k === 'cvd' && STATE.layers.cvd) STATE.layers.volPanel = 0;
     if (k === 'volPanel' && STATE.layers.volPanel) STATE.layers.cvd = 0;
     if (btn) btn.classList.toggle('on');
     syncLayerUI();
     if (['ema','bb','vwap','supertrend','volPanel','cvd','anchoredVwap'].includes(k)) buildSeries();
-    else drawOverlay();
+    else {
+      drawOverlay();
+      if (k === 'autoTargets' || k === 'autoConfluence') runAutoEngine();
+      if (k === 'macroStack') updateMacroStack();
+    }
     save();
   };
   const buildLayerPanel = () => {
@@ -2453,6 +2883,9 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
         ['ema','EMA'], ['vwap','VWAP'], ['anchoredVwap','Anchored VWAP'],
         ['bb','Bollinger'], ['supertrend','Supertrend'], ['vprofile','Vol Profile'],
         ['volPanel','Volume Panel'], ['cvd','CVD Panel'], ['absorption','Absorption'], ['volSpikes','Volume Spikes']
+      ]},
+      {name:'⚡ Auto Engine (NEW)', items:[
+        ['autoTargets','Liquidity Targets'], ['autoConfluence','Confluence Zones'], ['macroStack','Macro Bias Stack']
       ]}
     ];
     $('#lp').innerHTML = groups.map(g => `
@@ -2475,28 +2908,30 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     });
     $('#lp-clean').addEventListener('click', () => {
       Object.keys(STATE.layers).forEach(k => STATE.layers[k] = 0);
-      ['swingLabels','bos','ob','fvg','sweeps','volPanel'].forEach(k => STATE.layers[k] = 1);
-      syncLayerUI(); buildSeries(); save();
+      ['swingLabels','bos','ob','fvg','sweeps','volPanel','autoTargets','autoConfluence','macroStack'].forEach(k => STATE.layers[k] = 1);
+      syncLayerUI(); buildSeries(); runAutoEngine(); updateMacroStack(); save();
     });
     $('#lp-inst').addEventListener('click', () => {
       Object.keys(STATE.layers).forEach(k => STATE.layers[k] = 0);
       ['swingLabels','bos','ob','fvg','sweeps','eqhl','idm','breakers','htfOB',
-       'pd','pdhPdl','sessionHL','openingRange','nakedPoc','cvd','absorption','anchoredVwap'].forEach(k => STATE.layers[k] = 1);
-      syncLayerUI(); buildSeries(); save();
+       'pd','pdhPdl','sessionHL','openingRange','nakedPoc','cvd','absorption','anchoredVwap',
+       'autoTargets','autoConfluence','macroStack'].forEach(k => STATE.layers[k] = 1);
+      syncLayerUI(); buildSeries(); runAutoEngine(); updateMacroStack(); save();
     });
     $('#lp-scalp').addEventListener('click', () => {
       Object.keys(STATE.layers).forEach(k => STATE.layers[k] = 0);
-      ['swingLabels','bos','ob','fvg','sweeps','openingRange','sessionHL','volPanel','absorption'].forEach(k => STATE.layers[k] = 1);
-      syncLayerUI(); buildSeries(); save();
+      ['swingLabels','bos','ob','fvg','sweeps','openingRange','sessionHL','volPanel','absorption',
+       'autoTargets','autoConfluence','macroStack'].forEach(k => STATE.layers[k] = 1);
+      syncLayerUI(); buildSeries(); runAutoEngine(); updateMacroStack(); save();
     });
     $('#lp-all').addEventListener('click', () => {
       Object.keys(STATE.layers).forEach(k => STATE.layers[k] = 1);
-      STATE.layers.cvd = 0; // avoid CVD + volume conflict
-      syncLayerUI(); buildSeries(); save();
+      STATE.layers.cvd = 0;
+      syncLayerUI(); buildSeries(); runAutoEngine(); updateMacroStack(); save();
     });
     $('#lp-none').addEventListener('click', () => {
       Object.keys(STATE.layers).forEach(k => STATE.layers[k] = 0);
-      syncLayerUI(); buildSeries(); save();
+      syncLayerUI(); buildSeries(); runAutoEngine(); updateMacroStack(); save();
     });
   };
   const syncLayerUI = () => {
@@ -2547,7 +2982,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   };
 
   // ================================================================
-  // READ
+  // READ PANEL (with auto targets card at top)
   // ================================================================
   const renderRead = () => {
     const a = STATE.analysis;
@@ -2558,7 +2993,38 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     const stateLabel = a.structure.state.replace(/-/g,' ');
     const stateFormatted = stateLabel.charAt(0).toUpperCase() + stateLabel.slice(1);
 
-    // Confluence card
+    // NEW: Auto Targets Card
+    const t = STATE.liquidityTargets;
+    if (STATE.layers.autoTargets && t && (t.above.length || t.below.length)) {
+      parts.push(`
+        <div class="target-card">
+          <div class="tc-head">
+            <span><span class="auto-dot"></span>Auto Liquidity Targets</span>
+            <span style="font-size:9px;color:var(--text-mute);font-weight:500;">LIVE</span>
+          </div>
+          ${t.above.slice(0, 2).map((tg, i) => {
+            const dist = ((tg.price - a.price) / a.price * 100).toFixed(2);
+            return `<div class="tg-row bsl">
+              <span class="tg-type">BSL ${i === 0 ? '①' : '②'}</span>
+              <span class="tg-price">${fmtPrice(tg.price)}</span>
+              <span class="tg-src">${tg.sources.map(s => s.src).slice(0,2).join('·')}</span>
+              <span class="tg-dist">+${dist}%</span>
+            </div>`;
+          }).join('')}
+          ${t.below.slice(0, 2).map((tg, i) => {
+            const dist = ((a.price - tg.price) / a.price * 100).toFixed(2);
+            return `<div class="tg-row ssl">
+              <span class="tg-type">SSL ${i === 0 ? '①' : '②'}</span>
+              <span class="tg-price">${fmtPrice(tg.price)}</span>
+              <span class="tg-src">${tg.sources.map(s => s.src).slice(0,2).join('·')}</span>
+              <span class="tg-dist">−${dist}%</span>
+            </div>`;
+          }).join('')}
+        </div>
+      `);
+    }
+
+    // Confluence
     const conf = STATE.confluence;
     if (STATE.layers.confluence && conf && conf.factors.length > 0) {
       const cls = conf.score > 0 ? 'up' : conf.score < 0 ? 'down' : 'flat';
@@ -2608,7 +3074,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
           <div><span class="k">Score</span><span class="v ${a.score > 0 ? 'up' : a.score < 0 ? 'down' : ''}">${a.score > 0 ? '+' : ''}${a.score}</span></div>
           <div><span class="k">ATR</span><span class="v">${fmtPrice(a.atr)}</span></div>
           <div><span class="k">RSI</span><span class="v">${a.rsi[a.rsi.length-1]?.toFixed(1) || '—'}</span></div>
-          <div><span class="k">CVD</span><span class="v ${(a.cvd[a.cvd.length-1]?.value||0) > (a.cvd[Math.max(0,a.cvd.length-20)]?.value||0) ? 'up' : 'down'}">${(a.cvd[a.cvd.length-1]?.value||0) > (a.cvd[Math.max(0,a.cvd.length-20)]?.value||0) ? '↑ Rising' : '↓ Falling'}</span></div>
+          <div><span class="k">CVD</span><span class="v ${(a.cvd[a.cvd.length-1]?.value||0) > (a.cvd[Math.max(0,a.cvd.length-20)]?.value||0) ? 'up' : 'down'}">${(a.cvd[a.cvd.length-1]?.value||0) > (a.cvd[Math.max(0,a.cvd.length-20)]?.value||0) ? '↑' : '↓'}</span></div>
         </div>
       </div>
     `);
@@ -2640,6 +3106,20 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
         </div>
       </div>
     `);
+
+    // Confluence Zones
+    if (STATE.layers.autoConfluence && STATE.confluenceZones && STATE.confluenceZones.length) {
+      parts.push(`<div class="section-h">⚡ Confluence Zones (${STATE.confluenceZones.length})</div>`);
+      STATE.confluenceZones.slice(0, 4).forEach(z => {
+        const cls = z.dir > 0 ? 'up' : 'down';
+        parts.push(`<div class="analysis-row">
+          <span class="tag ${cls}">⚡ ${z.strength}</span>
+          <div class="body"><b>${z.type}</b> ${fmtPrice(z.lo)}–${fmtPrice(z.hi)}
+            <div class="meta">Sources: ${z.sources.join(' + ')}</div>
+          </div>
+        </div>`);
+      });
+    }
 
     if (a.reasons.length) {
       parts.push(`<div class="section-h">Why this bias</div>`);
@@ -2709,7 +3189,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
         parts.push(`<div class="analysis-row">
           <span class="tag ${cls}">${o.dir > 0 ? 'OB+' : 'OB-'}</span>
           <div class="body"><b>${o.bias}</b> ${fmtPrice(o.lo)}–${fmtPrice(o.hi)}
-            <div class="meta">Q${o.quality} · ${o.tests} tests · ${fmtTime(o.time)}${inZone ? ' · <b style="color:'+ (o.dir>0?'var(--up)':'var(--down)')+'">PRICE IN ZONE</b>' : ''}</div>
+            <div class="meta">Q${o.quality} · ${o.tests} tests · ${fmtTime(o.time)}${inZone ? ' · <b style="color:'+ (o.dir>0?'var(--up)':'var(--down)')+'">IN ZONE</b>' : ''}</div>
           </div>
         </div>`);
       });
@@ -2721,8 +3201,8 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
         const cls = sw.dir > 0 ? 'up' : 'down';
         parts.push(`<div class="analysis-row">
           <span class="tag ${cls}">SWP</span>
-          <div class="body">${sw.dir > 0 ? 'Bullish' : 'Bearish'} sweep of ${fmtPrice(sw.price)} — wick ${fmtPrice(sw.wick)}
-            <div class="meta">${fmtTime(sw.time)}</div>
+          <div class="body">${sw.dir > 0 ? 'Bullish' : 'Bearish'} sweep of ${fmtPrice(sw.price)}
+            <div class="meta">Wick ${fmtPrice(sw.wick)} · ${fmtTime(sw.time)}</div>
           </div>
         </div>`);
       });
@@ -2732,39 +3212,10 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     if (eqTotal) {
       parts.push(`<div class="section-h">Equal Levels</div>`);
       a.equalLevels.eqh.forEach(eq => {
-        parts.push(`<div class="analysis-row"><span class="tag down">EQH</span><div class="body">Equal highs @ <b>${fmtPrice(eq.price)}</b><div class="meta">Buyside liquidity · ${fmtTime(eq.time2)}</div></div></div>`);
+        parts.push(`<div class="analysis-row"><span class="tag down">EQH</span><div class="body">Equal highs @ <b>${fmtPrice(eq.price)}</b></div></div>`);
       });
       a.equalLevels.eql.forEach(eq => {
-        parts.push(`<div class="analysis-row"><span class="tag up">EQL</span><div class="body">Equal lows @ <b>${fmtPrice(eq.price)}</b><div class="meta">Sellside liquidity · ${fmtTime(eq.time2)}</div></div></div>`);
-      });
-    }
-
-    if (a.fvg.length) {
-      parts.push(`<div class="section-h">Fair Value Gaps (${a.fvg.length})</div>`);
-      a.fvg.slice(-3).reverse().forEach(f => {
-        const cls = f.dir > 0 ? 'up' : 'down';
-        parts.push(`<div class="analysis-row">
-          <span class="tag ${cls}">FVG</span>
-          <div class="body">${f.dir > 0 ? 'Bullish' : 'Bearish'} gap ${fmtPrice(f.lo)}–${fmtPrice(f.hi)}
-            <div class="meta">Size ${fmtPrice(f.size)} · ${fmtTime(f.time)}</div>
-          </div>
-        </div>`);
-      });
-    }
-
-    if (a.prevDayWeek.pdh) {
-      parts.push(`<div class="section-h">Key Levels</div>`);
-      if (a.prevDayWeek.pdh) parts.push(`<div class="analysis-row"><span class="tag neu">PDH</span><div class="body">${fmtPrice(a.prevDayWeek.pdh)}</div></div>`);
-      if (a.prevDayWeek.pdl) parts.push(`<div class="analysis-row"><span class="tag neu">PDL</span><div class="body">${fmtPrice(a.prevDayWeek.pdl)}</div></div>`);
-      if (a.prevDayWeek.pwh) parts.push(`<div class="analysis-row"><span class="tag info">PWH</span><div class="body">${fmtPrice(a.prevDayWeek.pwh)}</div></div>`);
-      if (a.prevDayWeek.pwl) parts.push(`<div class="analysis-row"><span class="tag info">PWL</span><div class="body">${fmtPrice(a.prevDayWeek.pwl)}</div></div>`);
-    }
-
-    if (a.patterns.length) {
-      parts.push(`<div class="section-h">Patterns</div>`);
-      a.patterns.forEach(p => {
-        const cls = p.dir > 0 ? 'up' : p.dir < 0 ? 'down' : 'neu';
-        parts.push(`<div class="analysis-row"><span class="tag ${cls}">${p.dir > 0 ? '▲' : p.dir < 0 ? '▼' : '◆'}</span><div class="body"><b>${p.name}</b> · ${p.status}<div class="meta">Conf ${p.conf.toFixed(0)}% · target ${fmtPrice(p.target)}</div></div></div>`);
+        parts.push(`<div class="analysis-row"><span class="tag up">EQL</span><div class="body">Equal lows @ <b>${fmtPrice(eq.price)}</b></div></div>`);
       });
     }
 
@@ -2772,7 +3223,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   };
 
   // ================================================================
-  // SCAN / FLOW / STATS / DATA
+  // SCAN / FLOW / STATS / DATA (unchanged from v2)
   // ================================================================
   let scanRunning = false;
   const renderScan = async () => {
@@ -2846,10 +3297,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     }
     const total = buyVol + sellVol;
     const buyPct = total ? buyVol / total * 100 : 50;
-    const bullOBs = a.ob.filter(o => o.dir > 0).length;
-    const bearOBs = a.ob.filter(o => o.dir < 0).length;
-    const bullFVGs = a.fvg.filter(f => f.dir > 0).length;
-    const bearFVGs = a.fvg.filter(f => f.dir < 0).length;
     const vp = a.vprofile;
     const price = a.price;
     let vpPos = 'inside';
@@ -2885,7 +3332,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
         <div class="row"><span class="k">Equal levels</span><span class="v">${a.equalLevels.eqh.length + a.equalLevels.eql.length}</span></div>
         <div class="row"><span class="k">Inducement</span><span class="v">${a.inducements.length}</span></div>
         <div class="row"><span class="k">Naked POCs</span><span class="v">${a.nakedPOC.length}</span></div>
-        <div class="row"><span class="k">Volume spikes</span><span class="v">${a.volumeSpikes.length}</span></div>
       </div>
     `;
   };
@@ -2919,7 +3365,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
         <div class="row"><span class="k">Open interest</span><span class="v">${fmtVol(fi.openInterest)}</span></div>
       </div>
     ` : '';
-
     el.innerHTML = `
       ${futuresBlock}
       <div class="stat-block">
@@ -3035,13 +3480,14 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       if (/anchored|avwap/.test(t)) out.layers.push('anchoredVwap');
       if (/htf|higher time/.test(t)) out.layers.push('htfOB');
       if (/pdh|pdl|pwh|pwl/.test(t)) out.layers.push('pdhPdl');
+      if (/auto|liquidity target|targets/.test(t)) out.layers.push('autoTargets');
     }
     if (/\b(clear|reset|hide all|remove all)\b/.test(t)) out.action = 'clear';
     if (/\bscan\b/.test(t)) out.action = 'scan';
     if (/\b(analysis|setup|read|what.*setup|what.*outlook|tell me)\b/.test(t)) out.action = 'read';
+    if (/\bsnapshot|screenshot|save.*png\b/.test(t)) out.action = 'snapshot';
     if (/\blong|buy\b/.test(t)) out.action = 'long';
     if (/\bshort|sell\b/.test(t)) out.action = 'short';
-    if (/\bsnapshot|screenshot|save.*png\b/.test(t)) out.action = 'snapshot';
     return out;
   };
   const runCommand = async (text) => {
@@ -3072,25 +3518,24 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
           STATE.layers[l] = 1;
           if (l === 'cvd') STATE.layers.volPanel = 0;
         });
-        syncLayerUI(); buildSeries(); save();
+        syncLayerUI(); buildSeries(); runAutoEngine(); save();
         chatLog('bot', `Enabled: ${cmd.layers.map(l => l.toUpperCase()).join(', ')}.`);
       }
-      if (cmd.action === 'snapshot') {
-        $('#snapshot-btn').click();
-        chatLog('bot', 'Screenshot saved.');
-      }
+      if (cmd.action === 'snapshot') { $('#snapshot-btn').click(); chatLog('bot', 'Screenshot saved.'); }
       if (cmd.action === 'read' && STATE.analysis) {
         const a = STATE.analysis;
         const conf = STATE.confluence;
+        const t = STATE.liquidityTargets;
+        let targetsText = '';
+        if (t && t.nearestAbove) targetsText += `Next BSL: ${fmtPrice(t.nearestAbove.price)}<br>`;
+        if (t && t.nearestBelow) targetsText += `Next SSL: ${fmtPrice(t.nearestBelow.price)}<br>`;
         chatLog('bot',
           `<b>${STATE.asset.n} · ${STATE.tf}</b><br>` +
           `Bias: <b>${a.bias}</b> (score ${a.score > 0 ? '+' : ''}${a.score})<br>` +
           `Structure: ${a.structure.state}<br>` +
           `Regime: ${a.regime.kind}<br>` +
-          `ATR: ${fmtPrice(a.atr)} · RSI: ${a.rsi[STATE.candles.length-1]?.toFixed(1)}<br>` +
-          (conf ? `Confluence: <b>${conf.score > 0 ? '+' : ''}${conf.score}</b> (${conf.strength})<br>` : '') +
-          `Support: ${a.nearestSup ? fmtPrice(a.nearestSup.price) : '—'}<br>` +
-          `Resistance: ${a.nearestRes ? fmtPrice(a.nearestRes.price) : '—'}`
+          targetsText +
+          (conf ? `Confluence: <b>${conf.score > 0 ? '+' : ''}${conf.score}</b> (${conf.strength})` : '')
         );
       }
       if (cmd.action === 'scan') {
@@ -3111,7 +3556,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
         );
       }
       if (!cmd.symbol && !cmd.tf && !cmd.layers && !cmd.action) {
-        chatLog('bot', `Try: <code>show order blocks on gold 4h</code>, <code>scan crypto 15m</code>, <code>what's the setup on BTC</code>.`);
+        chatLog('bot', `Try: <code>show order blocks on gold 4h</code>, <code>enable cvd</code>, <code>scan crypto 15m</code>.`);
       }
     } catch(e) {
       chatLog('bot', `Error: ${escapeHTML(e.message)}`);
@@ -3138,8 +3583,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
           const k = d.k;
           if (!k) return;
           const candle = {
-            time: Math.floor(k.t/1000),
-            open: +k.o, high: +k.h, low: +k.l, close: +k.c, volume: +k.v
+            time: Math.floor(k.t/1000), open: +k.o, high: +k.h, low: +k.l, close: +k.c, volume: +k.v
           };
           const last = STATE.candles[STATE.candles.length-1];
           if (last && candle.time === last.time) STATE.candles[STATE.candles.length-1] = candle;
@@ -3156,16 +3600,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
               });
             } catch(err) {}
           }
-          if (STATE.cvdSeries && STATE.analysis && STATE.analysis.cvd) {
-            const cvd = STATE.analysis.cvd;
-            const range = candle.high - candle.low || 1;
-            const buyFrac = (candle.close - candle.low) / range;
-            const delta = candle.volume * (buyFrac * 2 - 1);
-            const prevCum = cvd[cvd.length - 1]?.value || 0;
-            const newCum = prevCum + delta;
-            cvd.push({ time: candle.time, value: newCum, delta, buyFrac });
-            try { STATE.cvdSeries.update({ time: candle.time, value: newCum }); } catch(err) {}
-          }
           const chg = (candle.close - candle.open) / candle.open * 100;
           updatePriceHeader(candle.close, chg);
         } catch(e) {}
@@ -3174,7 +3608,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   };
 
   // ================================================================
-  // LOAD
+  // LOAD (with macro stack fetch)
   // ================================================================
   let loadToken = 0;
   const setAsset = async (asset) => {
@@ -3198,18 +3632,21 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       STATE.candles = candles;
       STATE.analysis = analyze(candles, STATE.tf);
 
+      // HTF + macro analyses (parallel)
       const htf = HTF_MAP[STATE.tf];
-      if (htf && htf !== STATE.tf) {
-        try {
-          STATE.htf = await fetchKlines(STATE.asset, htf, 200);
-          if (myToken !== loadToken) return;
-          STATE.htfAnalysis = analyze(STATE.htf, htf);
-        } catch(e) {}
-      } else {
-        STATE.htfAnalysis = null;
-      }
+      const htfPromise = (htf && htf !== STATE.tf)
+        ? fetchKlines(STATE.asset, htf, 200).then(c => analyze(c, htf)).catch(() => null)
+        : Promise.resolve(null);
+      const dailyPromise = fetchKlines(STATE.asset, '1d', 200).then(c => analyze(c, '1d')).catch(() => null);
+      const weeklyPromise = fetchKlines(STATE.asset, '1w', 150).then(c => analyze(c, '1w')).catch(() => null);
 
-      // Confluence (needs HTF)
+      const [htfA, dailyA, weeklyA] = await Promise.all([htfPromise, dailyPromise, weeklyPromise]);
+      if (myToken !== loadToken) return;
+
+      STATE.htfAnalysis = htfA;
+      STATE.htf = htfA ? STATE.htf : [];
+      STATE.macroStack = { D: dailyA, W: weeklyA };
+
       STATE.confluence = computeConfluence(STATE.analysis, STATE.htfAnalysis);
 
       if (STATE.asset.fut) {
@@ -3225,6 +3662,8 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       renderStats();
       renderData();
       updateHTFBadge();
+      updateMacroStack();
+      runAutoEngine();
 
       const last = candles[candles.length-1];
       const prev = candles[candles.length-2];
@@ -3264,15 +3703,13 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   };
 
   // ================================================================
-  // TABS — Click active tab to collapse
+  // TABS
   // ================================================================
   const switchTab = (name) => {
     const sheet = $('#sheet');
     const currentBtn = $('#tabs button.on');
     const isSame = currentBtn && currentBtn.dataset.tab === name;
     const isOpen = sheet.classList.contains('open');
-
-    // If same tab and already open → collapse
     if (isSame && isOpen) {
       sheet.classList.remove('open');
       requestAnimationFrame(() => {
@@ -3283,8 +3720,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       });
       return;
     }
-
-    // Otherwise: switch + open
     sheet.classList.add('open');
     $$('#tabs button').forEach(b => b.classList.toggle('on', b.dataset.tab === name));
     ['read','chat','scan','flow','stats','data'].forEach(t => {
@@ -3296,7 +3731,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     if (name === 'data') renderData();
     if (name === 'scan') renderScan();
     if (name === 'read') renderRead();
-
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         if (STATE._sizeAll) STATE._sizeAll();
@@ -3339,6 +3773,11 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     });
     $('#q').addEventListener('keydown', (e) => { if (e.key === 'Enter') $('#go').click(); });
     $$('.chat-suggest').forEach(b => b.addEventListener('click', () => runCommand(b.textContent)));
+
+    // NEW: Price axis stretch buttons
+    $('#pa-stretch-in').addEventListener('click', () => adjustPriceZoom(0.75));
+    $('#pa-stretch-out').addEventListener('click', () => adjustPriceZoom(1.35));
+    $('#pa-reset').addEventListener('click', resetPriceZoom);
 
     $('#zoom-in').addEventListener('click', () => {
       const ts = STATE.chart.timeScale();
@@ -3447,10 +3886,21 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     buildTicker();
     await loadData();
 
+    // Start autonomous engine — runs every 5 seconds regardless of user actions
+    if (STATE._autoTimer) clearInterval(STATE._autoTimer);
+    STATE._autoTimer = setInterval(() => {
+      if (STATE.analysis && STATE.autoEngine) runAutoEngine();
+    }, 5000);
+
     chatLog('bot',
       `Welcome to <b>Jugnuu Terminal</b>.<br>` +
       `Loaded <b>${asset.n} (${asset.s})</b> on <code>${STATE.tf}</code>.<br><br>` +
-      `Try: <code>show order blocks on gold 4h</code>, <code>enable cvd</code>, <code>scan crypto 15m</code>.`
+      `<b>New in this build:</b><br>` +
+      `• Drag the <b>right price axis</b> to stretch/compress candles<br>` +
+      `• <b>Auto Liquidity Engine</b> runs every 5s — targets plot automatically<br>` +
+      `• <b>Confluence zones</b> highlight OB+HVN, FVG+Swing overlaps<br>` +
+      `• <b>Macro Bias Stack</b> top-left shows W/D/HTF/Current alignment<br>` +
+      `• <b>Liquidity Radar</b> top-right shows nearest targets &amp; distance`
     );
 
     setInterval(checkMarketStatus, 30000);
