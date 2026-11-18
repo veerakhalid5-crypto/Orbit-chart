@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="theme-color" content="#06070a">
-<title>QCity Terminal · Institutional Chart Engine</title>
+<title>QCity Terminal · Institutional Chart Engine v5</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -64,17 +64,18 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   color:var(--text-dim);cursor:pointer;transition:all var(--fast) var(--ease);flex-shrink:0}
 .icon-btn:hover{color:var(--text);border-color:var(--border-2);background:var(--surface-3)}
 .icon-btn:active{transform:scale(.94)}
-.icon-btn.active{color:var(--accent);border-color:var(--accent);background:var(--accent-soft)}
 .icon-btn svg{width:15px;height:15px}
 
 #px{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;justify-content:center;
-  gap:1px;padding-left:12px;border-left:1px solid var(--border);height:30px;min-width:120px;transition:color var(--fast)}
+  gap:2px;padding-left:12px;border-left:1px solid var(--border);height:34px;min-width:130px;transition:color var(--fast)}
 #px .p-main{font-family:var(--font-mono);font-size:15px;font-weight:700;font-variant-numeric:tabular-nums;
   letter-spacing:-.3px;line-height:1;transition:color var(--fast)}
 #px .p-sub{font-family:var(--font-mono);font-size:10px;font-weight:500;color:var(--text-mute);
-  font-variant-numeric:tabular-nums;line-height:1;display:flex;gap:6px;align-items:center}
+  font-variant-numeric:tabular-nums;line-height:1;display:flex;gap:5px;align-items:center}
 #px.up .p-main{color:var(--up)}#px.down .p-main{color:var(--down)}
 #px.up .p-change{color:var(--up)}#px.down .p-change{color:var(--down)}
+#htf-badge{display:none;padding:1px 5px;border-radius:3px;font-size:8.5px;font-weight:700;
+  letter-spacing:.4px;font-family:var(--font-mono)}
 
 /* ===== TICKER ===== */
 #tk{display:flex;gap:4px;padding:3px 8px;height:var(--ticker-h);background:var(--surface);
@@ -91,11 +92,11 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .tk-item .c.up{color:var(--up)}.tk-item .c.down{color:var(--down)}
 
 /* ===== CHART ===== */
-#cw{position:relative;flex:1;min-height:0;background:var(--bg);overflow:hidden}
+#cw{position:relative;flex:1 1 0;min-height:180px;background:var(--bg);overflow:hidden}
 #ch{position:absolute;inset:0;width:100%;height:100%}
 #ov{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:4}
 
-#lay{position:absolute;top:8px;left:8px;z-index:10;display:flex;gap:4px;flex-wrap:wrap;max-width:calc(100% - 90px)}
+#lay{position:absolute;top:8px;left:8px;z-index:10;display:flex;gap:4px;flex-wrap:wrap;max-width:calc(100% - 130px)}
 .layer-chip{padding:4px 9px;font-size:10.5px;font-weight:500;background:rgba(13,17,24,.85);
   border:1px solid var(--border);color:var(--text-dim);border-radius:20px;cursor:pointer;
   transition:all var(--fast) var(--ease);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
@@ -116,9 +117,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   background:rgba(6,7,10,.85);padding:3px 8px;border-radius:4px;backdrop-filter:blur(12px);
   -webkit-backdrop-filter:blur(12px);font-family:var(--font-mono);pointer-events:none;
   transition:opacity var(--med);border:1px solid var(--border);letter-spacing:.2px}
-#msg.hidden{opacity:0}
 
-/* Market status banner */
 #mkt-banner{position:absolute;top:44px;left:50%;transform:translateX(-50%);z-index:12;
   display:none;align-items:center;gap:6px;padding:5px 12px;background:rgba(255,181,71,.12);
   border:1px solid rgba(255,181,71,.35);border-radius:20px;font-size:11px;color:var(--warn);
@@ -136,8 +135,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 #legend .sep{color:var(--text-faint)}
 #legend .chg.up{color:var(--up)}#legend .chg.down{color:var(--down)}
 
-/* Chart action buttons (top-right of chart, below legend) */
-#chart-actions{position:absolute;top:34px;right:12px;z-index:10;display:flex;gap:4px}
+#chart-actions{position:absolute;top:34px;right:12px;z-index:10;display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;max-width:140px}
 .mini-btn{width:24px;height:24px;display:flex;align-items:center;justify-content:center;
   background:rgba(6,7,10,.85);border:1px solid var(--border);border-radius:4px;color:var(--text-dim);
   cursor:pointer;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
@@ -155,6 +153,19 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .sk-bar.lg{height:22px;width:40%}.sk-bar.md{width:65%}.sk-bar.sm{width:30%}.sk-bar.full{width:100%;margin-top:8px;height:160px}
 @keyframes sk-shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
 
+/* ===== FULLSCREEN EXIT ===== */
+#fs-exit{display:none;position:fixed;top:max(20px,env(safe-area-inset-top));right:20px;z-index:9999;
+  align-items:center;gap:6px;padding:8px 14px;background:rgba(13,17,24,.95);
+  border:1px solid var(--border-2);border-radius:var(--radius);color:var(--text);
+  font-family:var(--font-ui);font-size:12px;font-weight:600;cursor:pointer;
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:var(--shadow-lg);
+  transition:all var(--fast)}
+#fs-exit:hover{background:rgba(30,40,55,.98);border-color:var(--border-3)}
+#fs-exit:active{transform:scale(.95)}
+#fs-exit svg{width:14px;height:14px}
+.fs #fs-exit{display:flex;animation:fs-slide-in var(--med) var(--ease)}
+@keyframes fs-slide-in{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:none}}
+
 /* ===== BOTTOM SHEET ===== */
 #sheet{background:var(--surface);border-top:1px solid var(--border);flex-shrink:0;
   padding-bottom:env(safe-area-inset-bottom);position:relative;z-index:15;
@@ -170,11 +181,10 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   background:var(--accent);border-radius:2px 2px 0 0;box-shadow:0 0 12px var(--accent);
   animation:tab-underline var(--med) var(--ease)}
 @keyframes tab-underline{from{transform:scaleX(0)}to{transform:scaleX(1)}}
-#tabs button .badge{display:inline-block;margin-left:4px;padding:1px 4px;border-radius:3px;
-  background:var(--accent-soft);color:var(--accent);font-size:9px;font-weight:700;font-family:var(--font-mono)}
 
-#body{overflow-y:auto;overflow-x:hidden;padding:12px;max-height:44dvh;max-height:44vh;
-  display:none;scroll-behavior:smooth;scrollbar-width:thin;scrollbar-color:var(--surface-4) transparent}
+#body{overflow-y:auto;overflow-x:hidden;padding:12px;
+  max-height:min(44dvh,calc(100dvh - 380px));display:none;scroll-behavior:smooth;
+  scrollbar-width:thin;scrollbar-color:var(--surface-4) transparent}
 #body::-webkit-scrollbar{width:6px}
 #body::-webkit-scrollbar-track{background:transparent}
 #body::-webkit-scrollbar-thumb{background:var(--surface-4);border-radius:3px}
@@ -182,7 +192,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 #body>div{animation:fade-slide var(--med) var(--ease)}
 @keyframes fade-slide{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
-/* Structure summary card */
+/* Structure card */
 .structure-card{background:linear-gradient(135deg,rgba(91,154,255,.06),rgba(184,141,255,.03));
   border:1px solid rgba(91,154,255,.2);border-radius:var(--radius);padding:12px;margin-bottom:12px}
 .structure-card .sc-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:8px}
@@ -193,12 +203,11 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .structure-card .bias-tag.range{background:rgba(255,181,71,.14);color:var(--warn)}
 .structure-card .sc-narrative{font-size:12px;color:var(--text-dim);line-height:1.5}
 .structure-card .sc-narrative b{color:var(--text);font-weight:600}
-.structure-card .sc-metrics{display:flex;gap:12px;margin-top:8px;font-family:var(--font-mono);font-size:10.5px}
+.structure-card .sc-metrics{display:flex;gap:12px;margin-top:8px;font-family:var(--font-mono);font-size:10.5px;flex-wrap:wrap}
 .structure-card .sc-metrics>div{display:flex;flex-direction:column;gap:2px}
 .structure-card .sc-metrics .k{color:var(--text-mute);font-size:9.5px;text-transform:uppercase;letter-spacing:.4px;font-weight:600}
 .structure-card .sc-metrics .v{color:var(--text);font-weight:600;font-variant-numeric:tabular-nums}
-.structure-card .sc-metrics .v.up{color:var(--up)}
-.structure-card .sc-metrics .v.down{color:var(--down)}
+.structure-card .sc-metrics .v.up{color:var(--up)}.structure-card .sc-metrics .v.down{color:var(--down)}
 
 .kv-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
 .kv-cell{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm);
@@ -240,8 +249,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 #chatlog .msg.bot b{color:var(--text)}
 #chatlog .msg.bot code{background:var(--bg);padding:1px 5px;border-radius:3px;
   font-family:var(--font-mono);font-size:11px;color:var(--accent-3)}
-#chatlog .msg.sys{background:transparent;border:1px dashed var(--border);color:var(--text-mute);
-  font-size:11px;font-style:italic;text-align:center}
 
 #chatin{display:flex;gap:6px;margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
 #chatin input{flex:1;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm);
@@ -250,7 +257,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 #chatin button{padding:0 16px;background:var(--accent);color:#06101c;border:0;border-radius:var(--radius-sm);
   font-weight:700;font-size:12px;cursor:pointer;transition:all var(--fast);font-family:var(--font-ui)}
 #chatin button:hover{background:#7cb0ff}
-#chatin button:active{transform:scale(.96)}
 
 .chat-suggests{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
 .chat-suggest{padding:4px 9px;font-size:10.5px;background:var(--surface-2);border:1px solid var(--border);
@@ -300,8 +306,8 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .data-table td.up{color:var(--up)}.data-table td.down{color:var(--down)}
 
 /* Fullscreen */
-.fs #bar,.fs #sheet,.fs #tk{display:none}
-.fs #cw{border-radius:0}
+.fs #bar,.fs #sheet,.fs #tk,.fs #lay{display:none}
+.fs #cw{min-height:100dvh;flex:1}
 
 /* Layer panel */
 #lp{display:none;position:absolute;top:44px;left:8px;z-index:30;background:rgba(13,17,24,.97);
@@ -320,7 +326,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 #lp .grp button:hover{border-color:var(--border-2);color:var(--text)}
 #lp .grp button.on{background:var(--accent);border-color:var(--accent);color:#06101c;font-weight:600}
 
-/* Toasts */
 #toasts{position:fixed;top:calc(var(--header-h) + 12px);left:50%;transform:translateX(-50%);z-index:100;
   display:flex;flex-direction:column;gap:6px;pointer-events:none;max-width:90vw}
 .toast{padding:8px 14px;background:rgba(13,17,24,.96);backdrop-filter:blur(20px);
@@ -337,15 +342,11 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   #bar{gap:5px;padding:0 6px}
   .pill-select select{padding:5px 22px 5px 8px;font-size:11.5px}
   .pill-select#sym-wrap select{max-width:130px;min-width:95px}
-  #px{min-width:95px;padding-left:6px}
+  #px{min-width:100px;padding-left:6px}
   #px .p-main{font-size:14px}
-  #lay{max-width:calc(100% - 60px)}
+  #lay{max-width:calc(100% - 130px)}
   .layer-chip{padding:3px 7px;font-size:10px}
-  #body{max-height:50dvh;max-height:50vh}
-}
-@media (min-width:900px){
-  #body{max-height:36dvh;max-height:36vh}
-  #chatlog{max-height:22dvh;max-height:22vh}
+  #chart-actions{max-width:110px}
 }
 </style>
 </head>
@@ -356,20 +357,12 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       <div class="brand-logo">Q</div>
       <div class="brand-name">QCITY</div>
     </div>
-    <div class="pill-select" id="sym-wrap">
-      <select id="sym" aria-label="Symbol"></select>
-    </div>
-    <div class="pill-select">
-      <select id="tf" aria-label="Timeframe"></select>
-    </div>
-    <div class="pill-select">
-      <select id="ty" aria-label="Chart type"></select>
-    </div>
+    <div class="pill-select" id="sym-wrap"><select id="sym" aria-label="Symbol"></select></div>
+    <div class="pill-select"><select id="tf" aria-label="Timeframe"></select></div>
+    <div class="pill-select"><select id="ty" aria-label="Chart type"></select></div>
     <button class="icon-btn" id="layers-btn" title="Layers (L)" aria-label="Layers">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polygon points="12 2 2 7 12 12 22 7 12 2"/>
-        <polyline points="2 12 12 17 22 12"/>
-        <polyline points="2 17 12 22 22 17"/>
+        <polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 12 12 17 22 12"/><polyline points="2 17 12 22 22 17"/>
       </svg>
     </button>
     <button class="icon-btn" id="fs" title="Fullscreen (F)" aria-label="Fullscreen">
@@ -379,7 +372,10 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     </button>
     <div id="px">
       <div class="p-main">—</div>
-      <div class="p-sub"><span class="p-change">—</span></div>
+      <div class="p-sub">
+        <span class="p-change">—</span>
+        <span id="htf-badge"></span>
+      </div>
     </div>
   </header>
 
@@ -392,10 +388,10 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     <div id="legend"></div>
     <div id="mkt-banner">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-      <span id="mkt-banner-text">Market closed — showing last available data</span>
+      <span id="mkt-banner-text">Market closed</span>
     </div>
     <div id="chart-actions">
-      <button class="mini-btn" id="zoom-reset" title="Reset zoom (R)">
+      <button class="mini-btn" id="zoom-reset" title="Fit (R)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
           <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/>
           <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M3 21v-5h5"/>
@@ -411,13 +407,23 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
           <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3M8 11h6"/>
         </svg>
       </button>
+      <button class="mini-btn" id="scroll-latest" title="Go to latest">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M5 4l7 8-7 8M12 4l7 8-7 8"/>
+        </svg>
+      </button>
+      <button class="mini-btn" id="snapshot-btn" title="Save PNG">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+          <circle cx="12" cy="13" r="4"/>
+        </svg>
+      </button>
     </div>
     <div id="dot"></div>
     <div id="msg">initializing…</div>
     <div id="skeleton">
       <div class="sk-bar lg"></div>
       <div class="sk-bar sm"></div>
-      <div class="sk-bar full"></div>
       <div class="sk-bar full"></div>
     </div>
   </div>
@@ -455,6 +461,13 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   </section>
 </div>
 
+<button id="fs-exit" title="Exit fullscreen (Esc)">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <path d="M8 3v3a2 2 0 0 1-2 2H3M21 8h-3a2 2 0 0 1-2-2V3M3 16h3a2 2 0 0 1 2 2v3M16 21v-3a2 2 0 0 1 2-2h3"/>
+  </svg>
+  <span>Exit</span>
+</button>
+
 <div id="toasts"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js"></script>
@@ -468,14 +481,10 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   const $$ = s => [...document.querySelectorAll(s)];
 
   const TFS = ['1m','3m','5m','15m','30m','1h','2h','4h','6h','8h','12h','1d','3d','1w','1M'];
-  const TF_SEC = {
-    '1m':60,'3m':180,'5m':300,'15m':900,'30m':1800,'1h':3600,'2h':7200,'4h':14400,
-    '6h':21600,'8h':28800,'12h':43200,'1d':86400,'3d':259200,'1w':604800,'1M':2592000
-  };
-  const HTF_MAP = {
-    '1m':'15m','3m':'1h','5m':'1h','15m':'4h','30m':'4h','1h':'1d','2h':'1d',
-    '4h':'1d','6h':'3d','8h':'3d','12h':'1w','1d':'1w','3d':'1w','1w':'1M','1M':'1M'
-  };
+  const TF_SEC = {'1m':60,'3m':180,'5m':300,'15m':900,'30m':1800,'1h':3600,'2h':7200,'4h':14400,
+    '6h':21600,'8h':28800,'12h':43200,'1d':86400,'3d':259200,'1w':604800,'1M':2592000};
+  const HTF_MAP = {'1m':'15m','3m':'1h','5m':'1h','15m':'4h','30m':'4h','1h':'1d','2h':'1d',
+    '4h':'1d','6h':'3d','8h':'3d','12h':'1w','1d':'1w','3d':'1w','1w':'1M','1M':'1M'};
   const CHART_TYPES = [
     {key:'candle',label:'Candles'},{key:'bars',label:'OHLC Bars'},{key:'line',label:'Line'},
     {key:'area',label:'Area'},{key:'baseline',label:'Baseline'},{key:'ha',label:'Heikin Ashi'},
@@ -495,18 +504,21 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 
   const STATE = {
     asset:null, assets:[], tf:'15m', chartType:'candle',
-    candles:[], htf:[], analysis:null, htfAnalysis:null,
-    chart:null, series:null, indSeries:{}, overlay:null, overlayCtx:null,
+    candles:[], htf:[], analysis:null, htfAnalysis:null, futuresInfo:null,
+    chart:null, series:null, volSeries:null, indSeries:{}, overlay:null, overlayCtx:null,
+    _sizeAll:null, _ro:null,
     ws:null, log:[], equity:10000, risk:1, src:'',
     layers:{
-      // Structural
+      // Structure
       swings:1, swingLabels:1, bos:1, sr:1, trendlines:0,
       // Institutional
       ob:1, fvg:1, sweeps:1, eqhl:1, idm:1, breakers:1,
+      // Levels
+      pdhPdl:1, sessionHL:1,
       // Context
       liq:0, pd:0, sessions:0, fib:0, wyckoff:0,
       // Indicators
-      ema:0, vwap:0, bb:0, supertrend:0, vprofile:0,
+      ema:0, vwap:0, bb:0, supertrend:0, vprofile:0, volPanel:1, volSpikes:1,
       // Patterns
       patterns:0
     },
@@ -514,11 +526,8 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     marketStatus:'unknown', staleCandles:false
   };
 
-  // ================================================================
-  // STORAGE
-  // ================================================================
   try {
-    const s = JSON.parse(localStorage.getItem('qcity_v4') || '{}');
+    const s = JSON.parse(localStorage.getItem('qcity_v5') || '{}');
     if (s.tf) STATE.tf = s.tf;
     if (s.chartType) STATE.chartType = s.chartType;
     if (s.layers) Object.assign(STATE.layers, s.layers);
@@ -530,7 +539,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 
   const save = () => {
     try {
-      localStorage.setItem('qcity_v4', JSON.stringify({
+      localStorage.setItem('qcity_v5', JSON.stringify({
         tf:STATE.tf, chartType:STATE.chartType, layers:STATE.layers,
         equity:STATE.equity, risk:STATE.risk, asset:STATE.asset?STATE.asset.s:null
       }));
@@ -610,6 +619,22 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     try { return await jsonGet(hosts, path); } catch(e) { return null; }
   };
 
+  const fetchFuturesInfo = async (asset) => {
+    if (!asset.fut) return null;
+    try {
+      const [premium, oi] = await Promise.all([
+        jsonGet(FUT_HOSTS, `/fapi/v1/premiumIndex?symbol=${asset.s}`),
+        jsonGet(FUT_HOSTS, `/fapi/v1/openInterest?symbol=${asset.s}`)
+      ]);
+      return {
+        fundingPct: parseFloat(premium.lastFundingRate) * 100,
+        markPrice: parseFloat(premium.markPrice),
+        nextFundingTime: premium.nextFundingTime,
+        openInterest: parseFloat(oi.openInterest)
+      };
+    } catch(e) { return null; }
+  };
+
   const fetchSymbols = async () => {
     const assets = [];
     COMMODITIES.forEach(([s,n]) => assets.push({
@@ -657,7 +682,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     const n = Math.min(period, trs.length);
     return trs.slice(-n).reduce((a,b) => a+b, 0) / n;
   };
-
   const computeEMA = (vals, period) => {
     if (!vals.length) return [];
     const k = 2/(period+1);
@@ -665,7 +689,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     for (let i = 1; i < vals.length; i++) out.push(vals[i]*k + out[i-1]*(1-k));
     return out;
   };
-
   const computeRSI = (candles, period = 14) => {
     const out = new Array(candles.length).fill(null);
     if (candles.length < period + 1) return out;
@@ -684,7 +707,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     }
     return out;
   };
-
   const computeBollinger = (candles, period = 20, mult = 2) => {
     const u = [], m = [], l = [];
     for (let i = 0; i < candles.length; i++) {
@@ -696,7 +718,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     }
     return {upper:u, middle:m, lower:l};
   };
-
   const computeVWAP = (candles) => {
     const out = [];
     let pv = 0, v = 0, day = null;
@@ -709,7 +730,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     }
     return out;
   };
-
   const computeSupertrend = (candles, period = 10, mult = 3) => {
     if (candles.length < period+2) return {line:[], dir:[]};
     const atr = [];
@@ -739,7 +759,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   };
 
   // ================================================================
-  // SWINGS (K-bar pivot detection + dedupe)
+  // SWINGS
   // ================================================================
   const detectSwings = (candles, k = 3) => {
     const sh = [], sl = [];
@@ -755,7 +775,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     }
     return {sh, sl};
   };
-
   const dedupeSwings = (swings, ascending) => {
     const out = [];
     for (const s of swings) {
@@ -766,9 +785,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     }
     return out;
   };
-
-  // Filter to significant swings (avoid noise)
-  // Criteria: swing must be spaced by at least 8 bars from prior, and price diff >= 0.4 ATR
   const significantSwings = (swings, atr, n, count = 8) => {
     const out = [];
     for (const s of swings) {
@@ -783,7 +799,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   };
 
   // ================================================================
-  // MARKET STRUCTURE (external / internal)
+  // STRUCTURE
   // ================================================================
   const detectStructure = (candles, swings) => {
     const events = [];
@@ -791,16 +807,12 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     let lastH = null, lastL = null;
     const shIdx = new Map(swings.sh.map(s => [s.p, s]));
     const slIdx = new Map(swings.sl.map(s => [s.p, s]));
-
     for (let i = 0; i < candles.length; i++) {
       if (shIdx.has(i)) {
         const s = shIdx.get(i);
         if (lastH && candles[i].close > lastH.price) {
-          events.push({
-            i, time:candles[i].time,
-            kind: trend >= 0 ? 'BOS' : 'CHoCH',
-            dir: 1, level:lastH.price, fromTime:lastH.time
-          });
+          events.push({i, time:candles[i].time, kind: trend >= 0 ? 'BOS' : 'CHoCH',
+            dir: 1, level:lastH.price, fromTime:lastH.time});
           trend = 1;
         }
         lastH = s;
@@ -808,66 +820,48 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       if (slIdx.has(i)) {
         const s = slIdx.get(i);
         if (lastL && candles[i].close < lastL.price) {
-          events.push({
-            i, time:candles[i].time,
-            kind: trend <= 0 ? 'BOS' : 'CHoCH',
-            dir: -1, level:lastL.price, fromTime:lastL.time
-          });
+          events.push({i, time:candles[i].time, kind: trend <= 0 ? 'BOS' : 'CHoCH',
+            dir: -1, level:lastL.price, fromTime:lastL.time});
           trend = -1;
         }
         lastL = s;
       }
     }
-
-    // Determine current state
     const last = events[events.length-1];
     let state = 'ranging';
     if (last) state = last.dir > 0 ? 'bullish' : 'bearish';
-    // Check for recent CHoCH (potential reversal)
     const recentChoch = events.slice(-3).find(e => e.kind === 'CHoCH');
     if (recentChoch) state = recentChoch.dir > 0 ? 'bullish-reversal' : 'bearish-reversal';
-
     return {events, state, trend, lastEvent:last};
   };
 
   // ================================================================
-  // ORDER BLOCKS (institutional-grade)
+  // ORDER BLOCKS
   // ================================================================
   const detectOrderBlocks = (candles, structureEvents, atr) => {
     const obs = [];
     const n = candles.length;
-
     structureEvents.slice(-8).forEach(ev => {
-      // Find the last opposite-color candle before the break
       for (let j = ev.i-1; j >= Math.max(0, ev.i-30); j--) {
         const x = candles[j];
         const isOpposite = ev.dir > 0 ? x.close < x.open : x.close > x.open;
         if (!isOpposite) continue;
-
-        // Check mitigation status
         let mitigatedIdx = -1;
         for (let m = ev.i+1; m < n; m++) {
           if (ev.dir > 0 ? candles[m].close < x.low : candles[m].close > x.high) {
-            mitigatedIdx = m;
-            break;
+            mitigatedIdx = m; break;
           }
         }
-        if (mitigatedIdx >= 0) break; // OB invalidated, try next structure event
-
-        // Count tests
+        if (mitigatedIdx >= 0) break;
         let tests = 0;
         for (let m = ev.i+1; m < n; m++) {
           if (candles[m].low <= x.high && candles[m].high >= x.low) tests++;
         }
-
         const size = x.high - x.low;
         const volumeRatio = x.volume / (candles.slice(-50).reduce((a,c) => a+c.volume, 0)/50 || 1);
-        const freshness = clamp(100 - (n-1-ev.i) * 2, 20, 100);
+        const freshness = clamp(100 - (n-1-ev.i)*2, 20, 100);
         const quality = Math.round(clamp(
-          30 + 20*Math.min(1.5, size/atr) + 15/(tests+1) + 15*Math.min(2, volumeRatio) + freshness*0.2,
-          30, 99
-        ));
-
+          30 + 20*Math.min(1.5, size/atr) + 15/(tests+1) + 15*Math.min(2, volumeRatio) + freshness*0.2, 30, 99));
         obs.push({
           dir: ev.dir, lo: x.low, hi: x.high, time: x.time, index: j,
           quality, tests, size, evTime: ev.time, volumeRatio, freshness,
@@ -876,13 +870,9 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
         break;
       }
     });
-
     return obs.slice(-5);
   };
 
-  // ================================================================
-  // BREAKER BLOCKS (failed OBs → new S/R)
-  // ================================================================
   const detectBreakers = (candles, structureEvents, atr) => {
     const breakers = [];
     const n = candles.length;
@@ -891,18 +881,13 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
         const x = candles[j];
         const isOpposite = ev.dir > 0 ? x.close < x.open : x.close > x.open;
         if (!isOpposite) continue;
-
-        // Find breach point
         let breachIdx = -1;
         for (let m = ev.i+1; m < n; m++) {
           if (ev.dir > 0 ? candles[m].close < x.low : candles[m].close > x.high) {
-            breachIdx = m;
-            break;
+            breachIdx = m; break;
           }
         }
         if (breachIdx < 0) break;
-
-        // Was it retested successfully after breach?
         let retested = false;
         for (let m = breachIdx+2; m < n; m++) {
           if (ev.dir > 0) {
@@ -915,20 +900,13 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
             }
           }
         }
-        if (retested) {
-          breakers.push({
-            dir: ev.dir, lo: x.low, hi: x.high, time: x.time, breachTime: candles[breachIdx].time
-          });
-        }
+        if (retested) breakers.push({dir: ev.dir, lo: x.low, hi: x.high, time: x.time, breachTime: candles[breachIdx].time});
         break;
       }
     });
     return breakers.slice(-3);
   };
 
-  // ================================================================
-  // FVG
-  // ================================================================
   const detectFVG = (candles, atr) => {
     const out = [];
     const n = candles.length;
@@ -949,13 +927,9 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     return out.slice(-4);
   };
 
-  // ================================================================
-  // LIQUIDITY SWEEPS (stop hunts)
-  // ================================================================
   const detectSweeps = (candles, swings, atr) => {
     const sweeps = [];
     const n = candles.length;
-    // For each swing, check if subsequent candle wicked through but closed back
     swings.sh.slice(-12).forEach(s => {
       for (let i = s.p+1; i < n; i++) {
         const c = candles[i];
@@ -977,9 +951,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     return sweeps.sort((a,b) => b.time - a.time).slice(0, 4);
   };
 
-  // ================================================================
-  // EQUAL HIGHS / LOWS (liquidity pools)
-  // ================================================================
   const detectEqualLevels = (candles, swings, atr) => {
     const eqh = [], eql = [];
     const hi = swings.sh.slice(-10);
@@ -989,11 +960,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
         if (Math.abs(hi[i].price - hi[j].price) < atr*0.15 && hi[j].p - hi[i].p >= 3) {
           const maxP = Math.max(hi[i].price, hi[j].price);
           const swept = candles.slice(hi[j].p+1).some(c => c.high > maxP + atr*0.15);
-          eqh.push({
-            price: (hi[i].price+hi[j].price)/2,
-            time1: hi[i].time, time2: hi[j].time,
-            p1: hi[i].p, p2: hi[j].p, swept
-          });
+          eqh.push({price:(hi[i].price+hi[j].price)/2, time1:hi[i].time, time2:hi[j].time, p1:hi[i].p, p2:hi[j].p, swept});
         }
       }
     }
@@ -1002,30 +969,19 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
         if (Math.abs(lo[i].price - lo[j].price) < atr*0.15 && lo[j].p - lo[i].p >= 3) {
           const minP = Math.min(lo[i].price, lo[j].price);
           const swept = candles.slice(lo[j].p+1).some(c => c.low < minP - atr*0.15);
-          eql.push({
-            price: (lo[i].price+lo[j].price)/2,
-            time1: lo[i].time, time2: lo[j].time,
-            p1: lo[i].p, p2: lo[j].p, swept
-          });
+          eql.push({price:(lo[i].price+lo[j].price)/2, time1:lo[i].time, time2:lo[j].time, p1:lo[i].p, p2:lo[j].p, swept});
         }
       }
     }
     return {eqh:eqh.filter(e => !e.swept).slice(-3), eql:eql.filter(e => !e.swept).slice(-3)};
   };
 
-  // ================================================================
-  // INDUCEMENT (false breaks before real move)
-  // ================================================================
   const detectInducement = (candles, swings, structure, atr) => {
     const idms = [];
-    const n = candles.length;
-    // Look for swing that was broken (wick) then reversed before a real BOS
     structure.slice(-3).forEach(ev => {
-      // Look 5-20 bars before the BOS for a minor false break
       const start = Math.max(0, ev.i-20);
       for (let i = start; i < ev.i-3; i++) {
         const c = candles[i];
-        // False break high (wick above prior swing, close back below)
         const priorHighs = swings.sh.filter(s => s.p < i && s.p > i-15);
         for (const ph of priorHighs) {
           if (c.high > ph.price + atr*0.2 && c.close < ph.price && ev.dir > 0) {
@@ -1046,29 +1002,104 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   };
 
   // ================================================================
-  // DISPLACEMENT (institutional candles)
+  // PREVIOUS DAY / WEEK LEVELS (NEW)
   // ================================================================
-  const detectDisplacement = (candles, atr) => {
-    const out = [];
-    const n = candles.length;
-    for (let i = Math.max(0, n-100); i < n; i++) {
-      const c = candles[i];
-      const body = Math.abs(c.close - c.open);
-      if (body > atr*1.5 && body > (c.high-c.low)*0.6) {
-        out.push({dir: c.close > c.open ? 1 : -1, time: c.time, body});
-      }
+  const detectPrevDayWeek = (candles) => {
+    const out = {};
+    if (candles.length < 30) return out;
+    // Previous Day High/Low
+    const days = {};
+    candles.forEach(c => {
+      const d = Math.floor(c.time / 86400);
+      if (!days[d]) days[d] = { hi: -Infinity, lo: Infinity };
+      days[d].hi = Math.max(days[d].hi, c.high);
+      days[d].lo = Math.min(days[d].lo, c.low);
+    });
+    const today = Math.floor(candles[candles.length-1].time / 86400);
+    const prevDayKeys = Object.keys(days).map(Number).filter(d => d < today).sort((a,b) => b-a);
+    if (prevDayKeys.length > 0) {
+      out.pdh = days[prevDayKeys[0]].hi;
+      out.pdl = days[prevDayKeys[0]].lo;
     }
-    return out.slice(-5);
+    // Previous Week High/Low (ISO-week aligned)
+    const weeks = {};
+    candles.forEach(c => {
+      const w = Math.floor((c.time + 4*86400) / (7*86400));
+      if (!weeks[w]) weeks[w] = { hi: -Infinity, lo: Infinity };
+      weeks[w].hi = Math.max(weeks[w].hi, c.high);
+      weeks[w].lo = Math.min(weeks[w].lo, c.low);
+    });
+    const curWeek = Math.floor((candles[candles.length-1].time + 4*86400) / (7*86400));
+    const prevWeekKeys = Object.keys(weeks).map(Number).filter(w => w < curWeek).sort((a,b) => b-a);
+    if (prevWeekKeys.length > 0) {
+      out.pwh = weeks[prevWeekKeys[0]].hi;
+      out.pwl = weeks[prevWeekKeys[0]].lo;
+    }
+    return out;
   };
 
   // ================================================================
-  // SUPPORT / RESISTANCE
+  // SESSION HIGHS/LOWS (NEW)
+  // ================================================================
+  const getNYTime = (t) => {
+    const d = new Date(t*1000);
+    const parts = new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',hour:'2-digit',minute:'2-digit',hour12:false}).formatToParts(d);
+    const h = +(parts.find(p => p.type==='hour')?.value || 0) % 24;
+    const m = +(parts.find(p => p.type==='minute')?.value || 0);
+    return {h, m};
+  };
+
+  const detectSessionHL = (candles) => {
+    const sessions = [];
+    let cur = null;
+    candles.forEach((c, i) => {
+      const { h, m } = getNYTime(c.time);
+      const hour = h + m/60;
+      let name = null;
+      if (hour >= 20 || hour < 2) name = 'Asia';
+      else if (hour >= 2 && hour < 8) name = 'London';
+      else if (hour >= 8 && hour < 17) name = 'NY';
+      if (!cur || cur.name !== name) {
+        if (cur && cur.hi !== -Infinity) sessions.push(cur);
+        cur = name ? { name, hi: -Infinity, lo: Infinity, start: i, startTime: c.time, end: i, endTime: c.time } : null;
+      }
+      if (cur) {
+        cur.hi = Math.max(cur.hi, c.high);
+        cur.lo = Math.min(cur.lo, c.low);
+        cur.end = i; cur.endTime = c.time;
+      }
+    });
+    if (cur && cur.hi !== -Infinity) sessions.push(cur);
+    const lastByType = {};
+    sessions.forEach(s => { lastByType[s.name] = s; });
+    return Object.values(lastByType);
+  };
+
+  const detectSessions = (candles) => {
+    const sessions = [];
+    let cur = null;
+    candles.forEach((c, i) => {
+      const {h, m} = getNYTime(c.time);
+      const hour = h + m/60;
+      let name = null, color = null;
+      if (hour >= 20 && hour < 24) { name='Asia'; color='rgba(184,141,255,.06)'; }
+      else if (hour >= 2 && hour < 5) { name='London KZ'; color='rgba(91,154,255,.09)'; }
+      else if (hour >= 8.5 && hour < 11) { name='NY KZ'; color='rgba(0,229,160,.09)'; }
+      if (name !== cur?.name) {
+        if (cur) sessions.push({...cur, end:i-1, endTime:candles[i-1].time});
+        cur = name ? {name, color, start:i, startTime:c.time} : null;
+      }
+      if (i === candles.length-1 && cur) sessions.push({...cur, end:i, endTime:c.time});
+    });
+    return sessions;
+  };
+
+  // ================================================================
+  // S/R
   // ================================================================
   const detectSR = (candles, swings, atr) => {
-    const all = [
-      ...swings.sh.map(s => ({...s, kind:'res'})),
-      ...swings.sl.map(s => ({...s, kind:'sup'}))
-    ].sort((a,b) => b.price - a.price);
+    const all = [...swings.sh.map(s => ({...s, kind:'res'})), ...swings.sl.map(s => ({...s, kind:'sup'}))]
+      .sort((a,b) => b.price - a.price);
     const clusters = [];
     const tol = atr*0.4;
     all.forEach(s => {
@@ -1077,19 +1108,14 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       else clusters.push({price:s.price, sum:s.price, count:1, lastP:s.p});
     });
     const cur = candles[candles.length-1].close;
-    return clusters
-      .filter(c => c.count >= 2)
-      .map(c => ({
-        price:c.price, count:c.count,
-        kind: c.price > cur ? 'resistance' : 'support',
-        strength: clamp(30 + c.count*20, 30, 100)
-      }))
-      .sort((a,b) => b.strength - a.strength)
-      .slice(0, 6);
+    return clusters.filter(c => c.count >= 2)
+      .map(c => ({price:c.price, count:c.count, kind: c.price > cur ? 'resistance' : 'support',
+        strength: clamp(30 + c.count*20, 30, 100)}))
+      .sort((a,b) => b.strength - a.strength).slice(0, 6);
   };
 
   // ================================================================
-  // TRENDLINES
+  // TRENDLINES / LIQUIDITY / FIB / PD
   // ================================================================
   const detectTrendlines = (candles, swings, atr) => {
     const out = [];
@@ -1113,13 +1139,8 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
           if (violated || touches < 3) continue;
           const score = touches*10 + (b.p - a.p);
           if (!best || score > best.score) {
-            best = {
-              a:{t:candles[a.p].time, v:a.price, p:a.p},
-              b:{t:candles[b.p].time, v:b.price, p:b.p},
-              slope, touches, isSup,
-              now: a.price + slope*(candles.length-1-a.p),
-              score
-            };
+            best = { a:{t:candles[a.p].time, v:a.price, p:a.p}, b:{t:candles[b.p].time, v:b.price, p:b.p},
+              slope, touches, isSup, now: a.price + slope*(candles.length-1-a.p), score };
           }
         }
       }
@@ -1130,9 +1151,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     return out;
   };
 
-  // ================================================================
-  // LIQUIDITY POOLS
-  // ================================================================
   const detectLiquidity = (candles, swings, atr) => {
     const pools = [];
     const push = (s, kind) => {
@@ -1151,9 +1169,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     return merged.sort((a,b) => b.count - a.count).slice(0, 5);
   };
 
-  // ================================================================
-  // FIB / PD
-  // ================================================================
   const detectFib = (candles, swings, atr) => {
     const lastH = swings.sh[swings.sh.length-1];
     const lastL = swings.sl[swings.sl.length-1];
@@ -1182,50 +1197,9 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     const mid = (high+low)/2;
     const cur = candles[candles.length-1].close;
     const pos = (cur-low)/(high-low);
-    return {
-      high, low, mid, cur, pos,
-      zone: pos > 0.5 ? 'premium' : 'discount',
-      eq: mid
-    };
+    return { high, low, mid, cur, pos, zone: pos > 0.5 ? 'premium' : 'discount', eq: mid };
   };
 
-  // ================================================================
-  // SESSIONS
-  // ================================================================
-  const getNYTime = (t) => {
-    const d = new Date(t*1000);
-    const parts = new Intl.DateTimeFormat('en-US',{
-      timeZone:'America/New_York', hour:'2-digit', minute:'2-digit', hour12:false
-    }).formatToParts(d);
-    const h = +(parts.find(p => p.type==='hour')?.value || 0) % 24;
-    const m = +(parts.find(p => p.type==='minute')?.value || 0);
-    return {h, m};
-  };
-
-  const detectSessions = (candles) => {
-    const sessions = [];
-    let cur = null;
-    candles.forEach((c, i) => {
-      const {h, m} = getNYTime(c.time);
-      const hour = h + m/60;
-      let name = null, color = null;
-      if (hour >= 20 && hour < 24) { name='Asia'; color='rgba(184,141,255,.06)'; }
-      else if (hour >= 2 && hour < 5) { name='London KZ'; color='rgba(91,154,255,.09)'; }
-      else if (hour >= 8.5 && hour < 11) { name='NY KZ'; color='rgba(0,229,160,.09)'; }
-      else if (hour >= 3 && hour < 4) { name='Silver Bullet'; color='rgba(255,157,91,.12)'; }
-
-      if (name !== cur?.name) {
-        if (cur) sessions.push({...cur, end:i-1, endTime:candles[i-1].time});
-        cur = name ? {name, color, start:i, startTime:c.time} : null;
-      }
-      if (i === candles.length-1 && cur) sessions.push({...cur, end:i, endTime:c.time});
-    });
-    return sessions;
-  };
-
-  // ================================================================
-  // VOLUME PROFILE
-  // ================================================================
   const computeVolumeProfile = (candles, bins = 40) => {
     const win = candles.slice(-200);
     if (!win.length) return null;
@@ -1246,23 +1220,14 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       const uv = hi < bins-1 ? profile[hi+1] : -1;
       if (uv >= dv) { hi++; va += uv; } else { lo--; va += dv; }
     }
-    return {
-      vlo, vhi, step, profile, max,
-      poc: vlo + (poc+0.5)*step,
-      vah: vlo + (hi+1)*step,
-      val: vlo + lo*step
-    };
+    return { vlo, vhi, step, profile, max, poc: vlo + (poc+0.5)*step, vah: vlo + (hi+1)*step, val: vlo + lo*step };
   };
 
-  // ================================================================
-  // PATTERNS
-  // ================================================================
   const detectPatterns = (candles, swings, atr) => {
     const out = [];
     const {sh, sl} = swings;
     const cur = candles[candles.length-1].close;
     const n = candles.length;
-
     if (sh.length >= 3) {
       const [l, h, r] = sh.slice(-3);
       if (r.p > h.p && h.p > l.p && (n-1-r.p) < 150 && (h.p-l.p) > 4 && (r.p-h.p) > 4) {
@@ -1270,13 +1235,10 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
         const headHeight = h.price - neckline;
         if (headHeight > atr*1.2 && Math.abs(l.price-r.price) < headHeight*0.8) {
           const broken = cur < neckline - atr*0.2;
-          out.push({
-            name:'Head & Shoulders', dir:-1,
-            status: broken ? 'confirmed' : 'forming',
+          out.push({ name:'Head & Shoulders', dir:-1, status: broken ? 'confirmed' : 'forming',
             conf: clamp(60 + (broken?15:0) + (1-Math.abs(l.price-r.price)/headHeight)*20, 40, 95),
             points: [l,h,r].map(s => ({t:s.time, v:s.price})),
-            target: neckline - headHeight, invalid: h.price
-          });
+            target: neckline - headHeight, invalid: h.price });
         }
       }
     }
@@ -1287,13 +1249,10 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
         const depth = neckline - h.price;
         if (depth > atr*1.2 && Math.abs(l.price-r.price) < depth*0.8) {
           const broken = cur > neckline + atr*0.2;
-          out.push({
-            name:'Inverse H&S', dir:1,
-            status: broken ? 'confirmed' : 'forming',
+          out.push({ name:'Inverse H&S', dir:1, status: broken ? 'confirmed' : 'forming',
             conf: clamp(60 + (broken?15:0) + (1-Math.abs(l.price-r.price)/depth)*20, 40, 95),
             points: [l,h,r].map(s => ({t:s.time, v:s.price})),
-            target: neckline + depth, invalid: h.price
-          });
+            target: neckline + depth, invalid: h.price });
         }
       }
     }
@@ -1301,34 +1260,25 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       const [a, b] = sh.slice(-2);
       if (Math.abs(a.price-b.price) < atr*0.5 && b.p-a.p > 6 && (n-1-b.p) < 40) {
         const low = Math.min(...candles.slice(a.p,b.p+1).map(c => c.low));
-        out.push({
-          name:'Double Top', dir:-1,
-          status: cur < low ? 'confirmed' : 'forming',
+        out.push({ name:'Double Top', dir:-1, status: cur < low ? 'confirmed' : 'forming',
           conf: clamp(55 + (1-Math.abs(a.price-b.price)/atr)*30, 40, 92),
           points: [a,b].map(s => ({t:s.time, v:s.price})),
-          target: low-(a.price-low), invalid: Math.max(a.price,b.price)
-        });
+          target: low-(a.price-low), invalid: Math.max(a.price,b.price) });
       }
     }
     if (sl.length >= 2) {
       const [a, b] = sl.slice(-2);
       if (Math.abs(a.price-b.price) < atr*0.5 && b.p-a.p > 6 && (n-1-b.p) < 40) {
         const high = Math.max(...candles.slice(a.p,b.p+1).map(c => c.high));
-        out.push({
-          name:'Double Bottom', dir:1,
-          status: cur > high ? 'confirmed' : 'forming',
+        out.push({ name:'Double Bottom', dir:1, status: cur > high ? 'confirmed' : 'forming',
           conf: clamp(55 + (1-Math.abs(a.price-b.price)/atr)*30, 40, 92),
           points: [a,b].map(s => ({t:s.time, v:s.price})),
-          target: high+(high-a.price), invalid: Math.min(a.price,b.price)
-        });
+          target: high+(high-a.price), invalid: Math.min(a.price,b.price) });
       }
     }
     return out.slice(0, 3);
   };
 
-  // ================================================================
-  // REGIME
-  // ================================================================
   const detectRegime = (candles, atr) => {
     const n = candles.length;
     const lb = Math.min(30, n-1);
@@ -1345,9 +1295,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     return {er, slope, kind};
   };
 
-  // ================================================================
-  // RSI DIVERGENCE
-  // ================================================================
   const detectDivergence = (candles, swings, rsi) => {
     const out = [];
     const n = candles.length;
@@ -1366,6 +1313,21 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       else if (b.price > a.price && rsi[b.p] < rsi[a.p]-1) out.push({dir:1, kind:'Hidden bullish divergence'});
     }
     return out.slice(-2);
+  };
+
+  // ================================================================
+  // VOLUME SPIKES (NEW)
+  // ================================================================
+  const detectVolumeSpikes = (candles) => {
+    const out = [];
+    const n = candles.length;
+    for (let i = 20; i < n; i++) {
+      const avg = candles.slice(i-20, i).reduce((a,c) => a+c.volume, 0) / 20;
+      if (candles[i].volume > avg * 2.5) {
+        out.push({ time: candles[i].time, volume: candles[i].volume, avg, index: i });
+      }
+    }
+    return out.slice(-30);
   };
 
   // ================================================================
@@ -1392,6 +1354,8 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     const fib = detectFib(candles, rawSwings, atr);
     const pd = detectPD(candles, rawSwings);
     const sessions = detectSessions(candles);
+    const sessionHL = detectSessionHL(candles);
+    const prevDayWeek = detectPrevDayWeek(candles);
     const vprofile = computeVolumeProfile(candles);
     const patterns = detectPatterns(candles, rawSwings, atr);
     const regime = detectRegime(candles, atr);
@@ -1406,7 +1370,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     const sweeps = detectSweeps(candles, rawSwings, atr);
     const equalLevels = detectEqualLevels(candles, rawSwings, atr);
     const inducements = detectInducement(candles, rawSwings, structure.events, atr);
-    const displacement = detectDisplacement(candles, atr);
+    const volumeSpikes = detectVolumeSpikes(candles);
 
     // Bias scoring
     let score = 0;
@@ -1455,14 +1419,14 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 
     return {
       price, atr, swings, structure, ob, breakers, fvg, sr, trendlines, liq, fib, pd, sessions,
-      vprofile, patterns, regime, rsi, divergence, ema20, ema50, ema200, bb, vwap, supertrend,
-      sweeps, equalLevels, inducements, displacement,
+      sessionHL, prevDayWeek, vprofile, patterns, regime, rsi, divergence, ema20, ema50, ema200,
+      bb, vwap, supertrend, sweeps, equalLevels, inducements, volumeSpikes,
       bias, biasDir, score, reasons, nearestRes, nearestSup, tf
     };
   };
 
   // ================================================================
-  // CHART TRANSFORMS
+  // TRANSFORMS
   // ================================================================
   const toHeikinAshi = (candles) => {
     const out = [];
@@ -1470,19 +1434,15 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     for (const c of candles) {
       const close = (c.open+c.high+c.low+c.close)/4;
       const open = prev ? (prev.open+prev.close)/2 : (c.open+c.close)/2;
-      out.push({
-        time: c.time, open, close,
-        high: Math.max(c.high, open, close),
-        low: Math.min(c.low, open, close)
-      });
+      out.push({time:c.time, open, close, high:Math.max(c.high,open,close), low:Math.min(c.low,open,close)});
       prev = out[out.length-1];
     }
     return out;
   };
-
   const toRenko = (candles, atr) => {
     if (!candles.length) return [];
-    const size = atr || (candles[0].high - candles[0].low)*2;
+    if (!atr || atr <= 0) return candles.slice();
+    const size = atr;
     let base = candles[0].close, dir = 0, last = 0;
     const out = [];
     for (const c of candles) {
@@ -1498,11 +1458,11 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
         out.push({time:last, open:o, high:Math.max(o,cl), low:Math.min(o,cl), close:cl});
       }
     }
-    return out;
+    return out.length ? out : candles.slice();
   };
 
   // ================================================================
-  // CHART
+  // CHART (FIXED)
   // ================================================================
   const chartOpts = () => ({
     layout: {
@@ -1510,81 +1470,67 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       textColor: '#8b98ab', fontSize: 11,
       fontFamily: "'JetBrains Mono', ui-monospace, monospace"
     },
-    grid: {
-      vertLines: {color:'rgba(29,38,52,0.5)'},
-      horzLines: {color:'rgba(29,38,52,0.5)'}
-    },
+    grid: {vertLines:{color:'rgba(29,38,52,0.5)'}, horzLines:{color:'rgba(29,38,52,0.5)'}},
     crosshair: {
-      mode: 0, // Normal crosshair
+      mode: 0,
       vertLine: {color:'rgba(91,154,255,0.6)', width:1, style:2, labelBackgroundColor:'#5b9aff'},
       horzLine: {color:'rgba(91,154,255,0.6)', width:1, style:2, labelBackgroundColor:'#5b9aff'}
     },
     timeScale: {
       borderColor: '#1d2634', timeVisible: true, secondsVisible: false,
-      rightOffset: 4, barSpacing: 8, minBarSpacing: 2, maxBarSpacing: 50,
+      rightOffset: 4, barSpacing: 8, minBarSpacing: 2, maxBarSpacing: 60,
       shiftVisibleRangeOnNewBar: true
     },
     rightPriceScale: {
       borderColor: '#1d2634',
-      scaleMargins: {top:0.08, bottom:0.22},
+      scaleMargins: {top:0.06, bottom:0.24},
       autoScale: true
     },
-    // KEY: proper interaction options
-    handleScroll: {
-      mouseWheel: true,
-      pressedMouseMove: true,
-      horzTouchDrag: true,
-      vertTouchDrag: false
-    },
-    handleScale: {
-      axisPressedMouseMove: true,
-      mouseWheel: true,
-      pinch: true
-    }
+    handleScroll: {mouseWheel:true, pressedMouseMove:true, horzTouchDrag:true, vertTouchDrag:false},
+    handleScale: {axisPressedMouseMove:true, mouseWheel:true, pinch:true}
   });
 
   const initChart = () => {
     const cw = $('#cw');
     if (STATE.chart) { try { STATE.chart.remove(); } catch(e) {} }
 
-    // Create with autoSize enabled — this fixes most resize/zoom problems
-    STATE.chart = LightweightCharts.createChart($('#ch'), {
-      ...chartOpts(),
-      autoSize: true
-    });
+    // NO autoSize — explicit resize handles it reliably
+    STATE.chart = LightweightCharts.createChart($('#ch'), chartOpts());
     STATE.indSeries = {};
 
-    STATE.chart.subscribeCrosshairMove(param => updateLegend(param));
-
-    // Attach canvas overlay with proper sizing
     const canvas = $('#ov');
     STATE.overlay = canvas;
     STATE.overlayCtx = canvas.getContext('2d');
 
-    const sizeCanvas = () => {
+    const sizeAll = () => {
+      if (!STATE.chart) return;
       const r = cw.getBoundingClientRect();
-      const dpr = window.devicePixelRatio || 1;
-      canvas.width = Math.floor(r.width * dpr);
-      canvas.height = Math.floor(r.height * dpr);
-      canvas.style.width = r.width + 'px';
-      canvas.style.height = r.height + 'px';
-      STATE.overlayCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      drawOverlay();
+      if (r.width > 0 && r.height > 0) {
+        try { STATE.chart.applyOptions({ width: Math.floor(r.width), height: Math.floor(r.height) }); } catch(e) {}
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = Math.floor(r.width * dpr);
+        canvas.height = Math.floor(r.height * dpr);
+        canvas.style.width = r.width + 'px';
+        canvas.style.height = r.height + 'px';
+        STATE.overlayCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        drawOverlay();
+      }
     };
+    STATE._sizeAll = sizeAll;
 
-    // Use ResizeObserver for the canvas, which also triggers chart autoSize
-    const ro = new ResizeObserver(sizeCanvas);
-    ro.observe(cw);
-    sizeCanvas();
+    if (STATE._ro) { try { STATE._ro.disconnect(); } catch(e) {} }
+    STATE._ro = new ResizeObserver(sizeAll);
+    STATE._ro.observe(cw);
+    sizeAll();
 
-    // Redraw overlay when the visible range changes (zoom/pan)
+    STATE.chart.subscribeCrosshairMove(updateLegend);
     STATE.chart.timeScale().subscribeVisibleLogicalRangeChange(() => {
       requestAnimationFrame(drawOverlay);
     });
   };
 
   const updateLegend = (param) => {
-    if (!param.time || !param.seriesData) { $('#legend').classList.remove('show'); return; }
+    if (!param.time || !param.seriesData || !STATE.series) { $('#legend').classList.remove('show'); return; }
     const d = param.seriesData.get(STATE.series);
     if (!d) { $('#legend').classList.remove('show'); return; }
     if (d.open === undefined) {
@@ -1606,14 +1552,19 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 
   const buildSeries = () => {
     if (!STATE.chart) return;
+    // Remove old
     if (STATE.series) { try { STATE.chart.removeSeries(STATE.series); } catch(e) {} }
-    Object.values(STATE.indSeries).forEach(s => { try { STATE.chart.removeSeries(s); } catch(e) {} });
+    if (STATE.volSeries) { try { STATE.chart.removeSeries(STATE.volSeries); } catch(e) {} }
+    Object.values(STATE.indSeries).forEach(s => {
+      if (s && typeof s === 'object' && !Array.isArray(s)) { try { STATE.chart.removeSeries(s); } catch(e) {} }
+    });
     STATE.indSeries = {};
+    STATE.series = null;
+    STATE.volSeries = null;
 
     const type = STATE.chartType;
     const candles = STATE.candles;
     let series;
-
     if (type === 'candle' || type === 'ha' || type === 'renko') {
       series = STATE.chart.addCandlestickSeries({
         upColor:'#00e5a0', downColor:'#ff3d5a',
@@ -1623,14 +1574,11 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     } else if (type === 'bars') {
       series = STATE.chart.addBarSeries({upColor:'#00e5a0', downColor:'#ff3d5a', thinBars:false});
     } else if (type === 'line') {
-      series = STATE.chart.addLineSeries({
-        color:'#5b9aff', lineWidth:2, crosshairMarkerVisible:true,
-        crosshairMarkerRadius:4, crosshairMarkerBorderColor:'#06070a', crosshairMarkerBackgroundColor:'#5b9aff'
-      });
+      series = STATE.chart.addLineSeries({color:'#5b9aff', lineWidth:2, crosshairMarkerVisible:true,
+        crosshairMarkerRadius:4, crosshairMarkerBorderColor:'#06070a', crosshairMarkerBackgroundColor:'#5b9aff'});
     } else if (type === 'area') {
-      series = STATE.chart.addAreaSeries({
-        lineColor:'#5b9aff', topColor:'rgba(91,154,255,0.35)', bottomColor:'rgba(91,154,255,0.02)', lineWidth:2
-      });
+      series = STATE.chart.addAreaSeries({lineColor:'#5b9aff', topColor:'rgba(91,154,255,0.35)',
+        bottomColor:'rgba(91,154,255,0.02)', lineWidth:2});
     } else if (type === 'baseline') {
       series = STATE.chart.addBaselineSeries({
         baseValue:{type:'price', price: candles.length ? candles[0].close : 0},
@@ -1648,6 +1596,37 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       series.setData(data.map(c => ({time:c.time, value:c.close})));
     } else {
       series.setData(data);
+      // Volume spike markers
+      if (STATE.layers.volSpikes && STATE.analysis && STATE.analysis.volumeSpikes.length) {
+        try {
+          const spikes = new Set(STATE.analysis.volumeSpikes.map(s => s.time));
+          series.setMarkers(data.filter(c => spikes.has(c.time)).map(c => ({
+            time: c.time, position: 'belowBar', color: 'rgba(255,181,71,0.85)',
+            shape: 'circle', text: 'V', size: 0.6
+          })));
+        } catch(e) {}
+      }
+    }
+
+    // Volume subpanel
+    if (STATE.layers.volPanel) {
+      const vs = STATE.chart.addHistogramSeries({
+        priceFormat: {type:'volume'}, priceScaleId: 'volume',
+        priceLineVisible: false, lastValueVisible: false
+      });
+      try {
+        STATE.chart.priceScale('volume').applyOptions({ scaleMargins: {top:0.8, bottom:0} });
+      } catch(e) {}
+      try {
+        STATE.chart.priceScale('right').applyOptions({ scaleMargins: {top:0.06, bottom:0.24} });
+      } catch(e) {}
+      vs.setData(candles.map(c => ({
+        time: c.time, value: c.volume,
+        color: c.close >= c.open ? 'rgba(0,229,160,0.35)' : 'rgba(255,61,90,0.35)'
+      })));
+      STATE.volSeries = vs;
+    } else {
+      try { STATE.chart.priceScale('right').applyOptions({ scaleMargins: {top:0.06, bottom:0.24} }); } catch(e) {}
     }
 
     addIndicators();
@@ -1657,10 +1636,9 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   const addIndicators = () => {
     const candles = STATE.candles;
     if (!candles.length) return;
-    Object.keys(STATE.indSeries).forEach(k => {
-      if (['ema','bb','vwap','supertrend'].some(p => k.startsWith(p))) {
+    ['ema20','ema50','ema200','bbUp','bbMid','bbLo','vwap','stUp','stDn'].forEach(k => {
+      if (STATE.indSeries[k]) {
         try { STATE.chart.removeSeries(STATE.indSeries[k]); } catch(e) {}
-        if (STATE.indSeries[k]?.up) { try { STATE.chart.removeSeries(STATE.indSeries[k].up); } catch(e) {} }
         delete STATE.indSeries[k];
       }
     });
@@ -1710,7 +1688,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   };
 
   // ================================================================
-  // OVERLAY DRAWING
+  // OVERLAY
   // ================================================================
   const drawOverlay = () => {
     if (!STATE.overlayCtx || !STATE.chart || !STATE.series || !STATE.analysis) return;
@@ -1725,8 +1703,9 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     const series = STATE.series;
     const xOf = t => timeScale.timeToCoordinate(t);
     const yOf = p => series.priceToCoordinate(p);
+    const n = candles.length;
 
-    // Sessions
+    // Sessions backgrounds
     if (STATE.layers.sessions) {
       a.sessions.forEach(s => {
         const x1 = xOf(s.startTime), x2 = xOf(s.endTime);
@@ -1736,7 +1715,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       });
     }
 
-    // Volume profile (right edge)
+    // Volume profile
     if (STATE.layers.vprofile && a.vprofile) {
       const vp = a.vprofile;
       const maxW = 80;
@@ -1751,15 +1730,50 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       });
       const yPOC = yOf(vp.poc);
       if (yPOC != null) {
-        ctx.strokeStyle = 'rgba(255,157,91,0.9)';
-        ctx.lineWidth = 1; ctx.setLineDash([4,3]);
+        ctx.strokeStyle = 'rgba(255,157,91,0.9)'; ctx.lineWidth = 1; ctx.setLineDash([4,3]);
         ctx.beginPath(); ctx.moveTo(0, yPOC); ctx.lineTo(rect.width-12, yPOC); ctx.stroke();
         ctx.setLineDash([]);
-        ctx.fillStyle = 'rgba(255,157,91,0.95)';
-        ctx.font = '600 10px "JetBrains Mono"';
-        ctx.textAlign = 'right';
-        ctx.fillText('POC', rect.width-16, yPOC-3);
+        ctx.fillStyle = 'rgba(255,157,91,0.95)'; ctx.font = '600 10px "JetBrains Mono"';
+        ctx.textAlign = 'right'; ctx.fillText('POC', rect.width-16, yPOC-3);
       }
+    }
+
+    // PDH/PDL/PWH/PWL — NEW
+    if (STATE.layers.pdhPdl && a.prevDayWeek) {
+      const dw = a.prevDayWeek;
+      const drawLevel = (price, label, color, dash) => {
+        if (price == null) return;
+        const y = yOf(price);
+        if (y == null) return;
+        ctx.strokeStyle = color; ctx.lineWidth = 1.2; ctx.setLineDash(dash || [6,4]);
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(rect.width-60, y); ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = color.replace('0.6', '0.95').replace('0.5', '0.95');
+        ctx.font = '600 8.5px "JetBrains Mono"'; ctx.textAlign = 'left';
+        ctx.fillText(label, 6, y - 3);
+      };
+      drawLevel(dw.pdh, `PDH ${fmtPrice(dw.pdh)}`, 'rgba(255,157,91,0.7)', [7,3]);
+      drawLevel(dw.pdl, `PDL ${fmtPrice(dw.pdl)}`, 'rgba(255,157,91,0.7)', [7,3]);
+      drawLevel(dw.pwh, `PWH ${fmtPrice(dw.pwh)}`, 'rgba(184,141,255,0.7)', [3,3]);
+      drawLevel(dw.pwl, `PWL ${fmtPrice(dw.pwl)}`, 'rgba(184,141,255,0.7)', [3,3]);
+    }
+
+    // Session H/L — NEW
+    if (STATE.layers.sessionHL && a.sessionHL) {
+      a.sessionHL.forEach(s => {
+        const yH = yOf(s.hi), yL = yOf(s.lo);
+        const x1 = xOf(s.startTime);
+        if (yH == null || yL == null || x1 == null) return;
+        const color = s.name === 'Asia' ? 'rgba(184,141,255,0.55)' : s.name === 'London' ? 'rgba(91,154,255,0.55)' : 'rgba(0,229,160,0.55)';
+        ctx.strokeStyle = color; ctx.lineWidth = 1; ctx.setLineDash([3,4]);
+        ctx.beginPath(); ctx.moveTo(x1, yH); ctx.lineTo(rect.width-60, yH); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(x1, yL); ctx.lineTo(rect.width-60, yL); ctx.stroke();
+        ctx.setLineDash([]);
+        const brighter = color.replace('0.55', '0.95');
+        ctx.fillStyle = brighter; ctx.font = '600 8px "JetBrains Mono"'; ctx.textAlign = 'right';
+        ctx.fillText(`${s.name} H`, rect.width-64, yH-3);
+        ctx.fillText(`${s.name} L`, rect.width-64, yL+9);
+      });
     }
 
     // S/R
@@ -1774,8 +1788,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
         ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(rect.width-60, y); ctx.stroke();
         ctx.setLineDash([]);
         ctx.fillStyle = isSup ? 'rgba(0,229,160,0.9)' : 'rgba(255,61,90,0.9)';
-        ctx.font = '600 9.5px "JetBrains Mono"';
-        ctx.textAlign = 'left';
+        ctx.font = '600 9.5px "JetBrains Mono"'; ctx.textAlign = 'left';
         ctx.fillText(`${isSup ? 'SUP' : 'RES'} ${fmtPrice(s.price)} ×${s.count}`, 8, y-4);
       });
     }
@@ -1785,13 +1798,10 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       a.fib.levels.forEach(l => {
         const y = yOf(l.p);
         if (y == null) return;
-        ctx.strokeStyle = 'rgba(184,141,255,0.45)';
-        ctx.lineWidth = 1; ctx.setLineDash([4,4]);
+        ctx.strokeStyle = 'rgba(184,141,255,0.45)'; ctx.lineWidth = 1; ctx.setLineDash([4,4]);
         ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(rect.width-60, y); ctx.stroke();
         ctx.setLineDash([]);
-        ctx.fillStyle = 'rgba(184,141,255,0.9)';
-        ctx.font = '500 9px "JetBrains Mono"';
-        ctx.textAlign = 'left';
+        ctx.fillStyle = 'rgba(184,141,255,0.9)'; ctx.font = '500 9px "JetBrains Mono"'; ctx.textAlign = 'left';
         ctx.fillText(`${(l.r*100).toFixed(1)}% ${fmtPrice(l.p)}`, rect.width-55, y+3);
       });
     }
@@ -1804,13 +1814,10 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
         ctx.fillRect(0, hiY, rect.width, eqY-hiY);
         ctx.fillStyle = 'rgba(0,229,160,0.04)';
         ctx.fillRect(0, eqY, rect.width, loY-eqY);
-        ctx.strokeStyle = 'rgba(255,181,71,0.6)';
-        ctx.lineWidth = 1; ctx.setLineDash([8,6]);
+        ctx.strokeStyle = 'rgba(255,181,71,0.6)'; ctx.lineWidth = 1; ctx.setLineDash([8,6]);
         ctx.beginPath(); ctx.moveTo(0, eqY); ctx.lineTo(rect.width-60, eqY); ctx.stroke();
         ctx.setLineDash([]);
-        ctx.fillStyle = 'rgba(255,181,71,0.95)';
-        ctx.font = '600 10px "JetBrains Mono"';
-        ctx.textAlign = 'left';
+        ctx.fillStyle = 'rgba(255,181,71,0.95)'; ctx.font = '600 10px "JetBrains Mono"'; ctx.textAlign = 'left';
         ctx.fillText(`EQ ${fmtPrice(a.pd.mid)}`, 8, eqY-4);
       }
     }
@@ -1824,31 +1831,24 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
         const y1 = yOf(o.hi), y2 = yOf(o.lo);
         if (y1 == null || y2 == null) return;
         const isBull = o.dir > 0;
-        // Fill area
         ctx.fillStyle = isBull ? 'rgba(0,229,160,0.12)' : 'rgba(255,61,90,0.12)';
         ctx.strokeStyle = isBull ? 'rgba(0,229,160,0.65)' : 'rgba(255,61,90,0.65)';
         ctx.lineWidth = 1.5;
-        ctx.beginPath();
-        ctx.rect(x1, y1, x2-x1, y2-y1);
-        ctx.fill(); ctx.stroke();
-        // Label with quality
+        ctx.beginPath(); ctx.rect(x1, y1, x2-x1, y2-y1); ctx.fill(); ctx.stroke();
         ctx.fillStyle = isBull ? 'rgba(0,229,160,1)' : 'rgba(255,61,90,1)';
-        ctx.font = '700 9.5px "JetBrains Mono"';
-        ctx.textAlign = 'left';
+        ctx.font = '700 9.5px "JetBrains Mono"'; ctx.textAlign = 'left';
         ctx.fillText(`${isBull ? 'OB+' : 'OB-'} Q${o.quality}`, x1+4, y1+11);
-        // Midline (50% of OB - typical entry)
         const midY = yOf((o.hi+o.lo)/2);
         if (midY != null) {
           ctx.strokeStyle = isBull ? 'rgba(0,229,160,0.3)' : 'rgba(255,61,90,0.3)';
           ctx.lineWidth = 1; ctx.setLineDash([3,3]);
-          ctx.beginPath();
-          ctx.moveTo(x1, midY); ctx.lineTo(x2, midY); ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(x1, midY); ctx.lineTo(x2, midY); ctx.stroke();
           ctx.setLineDash([]);
         }
       });
     }
 
-    // Breaker blocks (different style)
+    // Breakers
     if (STATE.layers.breakers) {
       a.breakers.forEach(b => {
         const x1 = xOf(b.time);
@@ -1856,19 +1856,15 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
         const x2 = rect.width - 60;
         const y1 = yOf(b.hi), y2 = yOf(b.lo);
         if (y1 == null || y2 == null) return;
-        // Breakers are inverted — the direction flipped
-        const isNowSupport = b.dir < 0;
-        ctx.strokeStyle = isNowSupport ? 'rgba(0,229,160,0.55)' : 'rgba(255,61,90,0.55)';
-        ctx.fillStyle = isNowSupport ? 'rgba(0,229,160,0.06)' : 'rgba(255,61,90,0.06)';
-        ctx.lineWidth = 1.5;
-        ctx.setLineDash([8,4]);
-        ctx.beginPath(); ctx.rect(x1, y1, x2-x1, y2-y1);
-        ctx.fill(); ctx.stroke();
+        const isNowSup = b.dir < 0;
+        ctx.strokeStyle = isNowSup ? 'rgba(0,229,160,0.55)' : 'rgba(255,61,90,0.55)';
+        ctx.fillStyle = isNowSup ? 'rgba(0,229,160,0.06)' : 'rgba(255,61,90,0.06)';
+        ctx.lineWidth = 1.5; ctx.setLineDash([8,4]);
+        ctx.beginPath(); ctx.rect(x1, y1, x2-x1, y2-y1); ctx.fill(); ctx.stroke();
         ctx.setLineDash([]);
-        ctx.fillStyle = isNowSupport ? 'rgba(0,229,160,0.9)' : 'rgba(255,61,90,0.9)';
-        ctx.font = '600 9px "JetBrains Mono"';
-        ctx.textAlign = 'left';
-        ctx.fillText(isNowSupport ? 'BRKR+' : 'BRKR-', x1+4, y2-4);
+        ctx.fillStyle = isNowSup ? 'rgba(0,229,160,0.9)' : 'rgba(255,61,90,0.9)';
+        ctx.font = '600 9px "JetBrains Mono"'; ctx.textAlign = 'left';
+        ctx.fillText(isNowSup ? 'BRKR+' : 'BRKR-', x1+4, y2-4);
       });
     }
 
@@ -1884,11 +1880,9 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
         ctx.fillStyle = isBull ? 'rgba(91,154,255,0.10)' : 'rgba(255,181,71,0.10)';
         ctx.strokeStyle = isBull ? 'rgba(91,154,255,0.5)' : 'rgba(255,181,71,0.5)';
         ctx.lineWidth = 1;
-        ctx.beginPath(); ctx.rect(x1, y1, x2-x1, y2-y1);
-        ctx.fill(); ctx.stroke();
+        ctx.beginPath(); ctx.rect(x1, y1, x2-x1, y2-y1); ctx.fill(); ctx.stroke();
         ctx.fillStyle = isBull ? 'rgba(91,154,255,0.95)' : 'rgba(255,181,71,0.95)';
-        ctx.font = '600 9px "JetBrains Mono"';
-        ctx.textAlign = 'left';
+        ctx.font = '600 9px "JetBrains Mono"'; ctx.textAlign = 'left';
         ctx.fillText(isBull ? 'FVG+' : 'FVG-', x1+4, y1+10);
       });
     }
@@ -1919,14 +1913,12 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
         const mx = rect.width - 66;
         ctx.fillStyle = l.kind === 'high' ? 'rgba(255,61,90,0.9)' : 'rgba(0,229,160,0.9)';
         ctx.beginPath(); ctx.arc(mx, y, 3, 0, Math.PI*2); ctx.fill();
-        ctx.fillStyle = 'rgba(139,152,171,0.9)';
-        ctx.font = '500 9px "JetBrains Mono"';
-        ctx.textAlign = 'right';
+        ctx.fillStyle = 'rgba(139,152,171,0.9)'; ctx.font = '500 9px "JetBrains Mono"'; ctx.textAlign = 'right';
         ctx.fillText(`LIQ ×${l.count}`, mx-6, y+3);
       });
     }
 
-    // Liquidity sweeps (arrows/markers)
+    // Sweeps
     if (STATE.layers.sweeps) {
       a.sweeps.forEach(sw => {
         const x = xOf(sw.time);
@@ -1934,95 +1926,64 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
         if (x == null || y == null) return;
         const color = sw.dir > 0 ? 'rgba(0,229,160,0.95)' : 'rgba(255,61,90,0.95)';
         const ySwing = yOf(sw.price);
-        // Draw sweep marker
         ctx.fillStyle = color;
         if (sw.dir > 0) {
-          // Up arrow below wick
-          ctx.beginPath();
-          ctx.moveTo(x, y-2);
-          ctx.lineTo(x-5, y+6);
-          ctx.lineTo(x+5, y+6);
-          ctx.closePath(); ctx.fill();
+          ctx.beginPath(); ctx.moveTo(x, y-2); ctx.lineTo(x-5, y+6); ctx.lineTo(x+5, y+6); ctx.closePath(); ctx.fill();
         } else {
-          ctx.beginPath();
-          ctx.moveTo(x, y+2);
-          ctx.lineTo(x-5, y-6);
-          ctx.lineTo(x+5, y-6);
-          ctx.closePath(); ctx.fill();
+          ctx.beginPath(); ctx.moveTo(x, y+2); ctx.lineTo(x-5, y-6); ctx.lineTo(x+5, y-6); ctx.closePath(); ctx.fill();
         }
-        // Dashed line to swing level (showing the sweep)
         if (ySwing != null) {
-          ctx.strokeStyle = color.replace('0.95', '0.4');
-          ctx.lineWidth = 1; ctx.setLineDash([2,3]);
+          ctx.strokeStyle = color.replace('0.95', '0.4'); ctx.lineWidth = 1; ctx.setLineDash([2,3]);
           ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x, ySwing); ctx.stroke();
           ctx.setLineDash([]);
         }
-        // Label
-        ctx.fillStyle = color;
-        ctx.font = '700 8.5px "JetBrains Mono"';
-        ctx.textAlign = 'center';
+        ctx.fillStyle = color; ctx.font = '700 8.5px "JetBrains Mono"'; ctx.textAlign = 'center';
         ctx.fillText(sw.dir > 0 ? 'SWEEP+' : 'SWEEP-', x, sw.dir > 0 ? y+18 : y-12);
       });
     }
 
-    // Equal highs/lows — dashed line connecting the two swings
+    // Equal H/L
     if (STATE.layers.eqhl) {
       const drawEQ = (eq, kind) => {
         const y = yOf(eq.price);
         const x1 = xOf(eq.time1), x2 = xOf(eq.time2);
         if (y == null || x1 == null || x2 == null) return;
         const color = kind === 'eqh' ? 'rgba(255,61,90,0.7)' : 'rgba(0,229,160,0.7)';
-        ctx.strokeStyle = color;
-        ctx.lineWidth = 1.5; ctx.setLineDash([2,4]);
+        ctx.strokeStyle = color; ctx.lineWidth = 1.5; ctx.setLineDash([2,4]);
         ctx.beginPath(); ctx.moveTo(x1, y); ctx.lineTo(x2, y); ctx.stroke();
-        // Extend line to the right as still-active liquidity
         ctx.beginPath(); ctx.moveTo(x2, y); ctx.lineTo(rect.width-60, y); ctx.stroke();
         ctx.setLineDash([]);
-        // Markers at each touch
         ctx.fillStyle = color;
         ctx.beginPath(); ctx.arc(x1, y, 3, 0, Math.PI*2); ctx.fill();
         ctx.beginPath(); ctx.arc(x2, y, 3, 0, Math.PI*2); ctx.fill();
-        ctx.font = '700 8.5px "JetBrains Mono"';
-        ctx.textAlign = 'left';
+        ctx.font = '700 8.5px "JetBrains Mono"'; ctx.textAlign = 'left';
         ctx.fillText(kind === 'eqh' ? 'EQH' : 'EQL', Math.max(x1, x2)+6, y-4);
       };
       a.equalLevels.eqh.forEach(e => drawEQ(e, 'eqh'));
       a.equalLevels.eql.forEach(e => drawEQ(e, 'eql'));
     }
 
-    // Inducement markers
+    // Inducement
     if (STATE.layers.idm) {
       a.inducements.forEach(idm => {
         const x = xOf(idm.time), y = yOf(idm.price);
         if (x == null || y == null) return;
-        ctx.fillStyle = idm.dir > 0 ? 'rgba(255,181,71,0.95)' : 'rgba(255,181,71,0.95)';
-        ctx.font = '700 8.5px "JetBrains Mono"';
-        ctx.textAlign = 'center';
+        ctx.fillStyle = 'rgba(255,181,71,0.95)';
+        ctx.font = '700 8.5px "JetBrains Mono"'; ctx.textAlign = 'center';
         ctx.fillText('IDM', x, idm.dir > 0 ? y+12 : y-6);
-        // Small circle
-        ctx.strokeStyle = 'rgba(255,181,71,0.7)';
-        ctx.lineWidth = 1.5;
+        ctx.strokeStyle = 'rgba(255,181,71,0.7)'; ctx.lineWidth = 1.5;
         ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI*2); ctx.stroke();
       });
     }
 
-    // Swing labels — ONLY significant swings
+    // Swing labels (significant only)
     if (STATE.layers.swingLabels) {
-      // Determine structure direction for label interpretation
-      const structState = a.structure.state;
-      const isBullish = structState.includes('bullish');
-      const isBearish = structState.includes('bearish');
-
-      // Only show last N swings that are recent (last 100 candles)
-      const recentSigSh = a.swings.sigSh.filter(s => n => true).filter(s => candles.length-1-s.p <= 100);
-      const recentSigSl = a.swings.sigSl.filter(s => candles.length-1-s.p <= 100);
-
-      // Draw only if structure context allows interpretation
+      const recentSigSh = a.swings.sigSh.filter(s => n-1-s.p <= 100);
+      const recentSigSl = a.swings.sigSl.filter(s => n-1-s.p <= 100);
       const drawLabel = (swing, prev, kind) => {
+        if (!prev) return;
         const x = xOf(swing.time), y = yOf(swing.price);
         if (x == null || y == null) return;
-        // Only label if there's a meaningful prior swing
-        if (!prev) return;
         let label, color;
         if (kind === 'high') {
           if (swing.price > prev.price) { label = 'HH'; color = 'rgba(255,181,71,0.9)'; }
@@ -2031,9 +1992,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
           if (swing.price > prev.price) { label = 'HL'; color = 'rgba(91,154,255,0.9)'; }
           else { label = 'LL'; color = 'rgba(255,61,90,0.9)'; }
         }
-        ctx.fillStyle = color;
-        ctx.font = '700 9px "JetBrains Mono"';
-        ctx.textAlign = 'center';
+        ctx.fillStyle = color; ctx.font = '700 9px "JetBrains Mono"'; ctx.textAlign = 'center';
         ctx.fillText(label, x, kind === 'high' ? y-8 : y+14);
       };
       recentSigSh.forEach((s, i) => drawLabel(s, i > 0 ? recentSigSh[i-1] : null, 'high'));
@@ -2046,19 +2005,13 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
         const x = xOf(ev.time), y = yOf(ev.level);
         if (x == null || y == null) return;
         const isBull = ev.dir > 0;
-        const color = ev.kind === 'CHoCH'
-          ? (isBull ? 'rgba(255,181,71,0.95)' : 'rgba(255,181,71,0.95)')
+        const color = ev.kind === 'CHoCH' ? 'rgba(255,181,71,0.95)'
           : (isBull ? 'rgba(0,229,160,0.95)' : 'rgba(255,61,90,0.95)');
-        ctx.fillStyle = color;
-        ctx.font = '700 9.5px "JetBrains Mono"';
+        ctx.fillStyle = color; ctx.font = '700 9.5px "JetBrains Mono"';
         ctx.textAlign = isBull ? 'left' : 'right';
         ctx.fillText(ev.kind, x + (isBull ? 6 : -6), y - 4);
-        ctx.strokeStyle = color.replace('0.95', '0.5');
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.moveTo(x, y);
-        ctx.lineTo(x + (isBull ? 28 : -28), y);
-        ctx.stroke();
+        ctx.strokeStyle = color.replace('0.95', '0.5'); ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + (isBull ? 28 : -28), y); ctx.stroke();
       });
     }
 
@@ -2082,14 +2035,13 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
         const xL = xOf(first.t), yL = yOf(first.v);
         if (xL != null && yL != null) {
           ctx.fillStyle = p.dir > 0 ? 'rgba(0,229,160,0.95)' : 'rgba(255,61,90,0.95)';
-          ctx.font = '600 9.5px "JetBrains Mono"';
-          ctx.textAlign = 'left';
+          ctx.font = '600 9.5px "JetBrains Mono"'; ctx.textAlign = 'left';
           ctx.fillText(p.name, xL+4, yL-6);
         }
       });
     }
 
-    // Last price dot on the right edge
+    // Last price dot
     const lastPrice = candles[candles.length-1].close;
     const lastY = yOf(lastPrice);
     if (lastY != null) {
@@ -2099,7 +2051,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   };
 
   // ================================================================
-  // MARKET STATUS CHECK
+  // MARKET STATUS
   // ================================================================
   const checkMarketStatus = () => {
     const last = STATE.candles[STATE.candles.length-1];
@@ -2110,11 +2062,9 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     const banner = $('#mkt-banner');
     const bannerText = $('#mkt-banner-text');
     const dot = $('#dot');
-
     if (STATE.asset && STATE.asset.fut) {
-      // Commodities pause on weekends
-      const dayOfWeek = new Date().getUTCDay(); // 0=Sun, 6=Sat
-      const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+      const dow = new Date().getUTCDay();
+      const isWeekend = dow === 0 || dow === 6;
       if (isWeekend || gap > expected * 4) {
         STATE.marketStatus = 'closed';
         STATE.staleCandles = true;
@@ -2126,7 +2076,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
         return;
       }
     }
-    // Crypto should always be live
     if (gap > expected * 10) {
       STATE.marketStatus = 'stale';
       STATE.staleCandles = true;
@@ -2139,6 +2088,37 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       banner.classList.remove('show');
       dot.className = 'live';
     }
+  };
+
+  // ================================================================
+  // HTF BADGE
+  // ================================================================
+  const updateHTFBadge = () => {
+    const el = $('#htf-badge');
+    if (!el) return;
+    const ha = STATE.htfAnalysis;
+    if (!ha) { el.style.display = 'none'; return; }
+    const htf = HTF_MAP[STATE.tf] || STATE.tf;
+    el.style.display = 'inline-block';
+    el.textContent = `${htf.toUpperCase()} ${ha.bias.charAt(0)}`;
+    el.style.background = ha.bias === 'Bullish' ? 'rgba(0,229,160,.18)' : ha.bias === 'Bearish' ? 'rgba(255,61,90,.18)' : 'rgba(255,181,71,.18)';
+    el.style.color = ha.bias === 'Bullish' ? 'var(--up)' : ha.bias === 'Bearish' ? 'var(--down)' : 'var(--warn)';
+  };
+
+  // ================================================================
+  // FULLSCREEN TOGGLE (FIXED)
+  // ================================================================
+  const toggleFullscreen = () => {
+    const entering = !document.documentElement.classList.contains('fs');
+    document.documentElement.classList.toggle('fs');
+    // Force resize after transition completes
+    setTimeout(() => {
+      if (STATE._sizeAll) STATE._sizeAll();
+      if (entering) {
+        try { STATE.chart.timeScale().fitContent(); } catch(e) {}
+      }
+      setTimeout(drawOverlay, 60);
+    }, 120);
   };
 
   // ================================================================
@@ -2157,30 +2137,26 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       og.label = gName;
       groups[gName].forEach(a => {
         const o = document.createElement('option');
-        o.value = a.s;
-        o.textContent = a.n;
+        o.value = a.s; o.textContent = a.n;
         og.appendChild(o);
       });
       sel.appendChild(og);
     });
     if (STATE.asset) sel.value = STATE.asset.s;
   };
-
   const buildTFSelect = () => {
     $('#tf').innerHTML = TFS.map(tf => `<option value="${tf}">${tf}</option>`).join('');
     $('#tf').value = STATE.tf;
   };
-
   const buildTypeSelect = () => {
     $('#ty').innerHTML = CHART_TYPES.map(t => `<option value="${t.key}">${t.label}</option>`).join('');
     $('#ty').value = STATE.chartType;
   };
-
   const buildLayerChips = () => {
     const chips = [
       {k:'ob', l:'OB'}, {k:'fvg', l:'FVG'}, {k:'sweeps', l:'Sweep'},
       {k:'eqhl', l:'EQH/L'}, {k:'bos', l:'BOS'}, {k:'sr', l:'S/R'},
-      {k:'swingLabels', l:'Swings'}, {k:'liq', l:'Liq'}
+      {k:'pdhPdl', l:'PDH/PWH'}, {k:'swingLabels', l:'Swings'}
     ];
     $('#lay').innerHTML = chips.map(c =>
       `<button class="layer-chip${STATE.layers[c.k]?' on':''}" data-layer="${c.k}">${c.l}</button>`
@@ -2190,13 +2166,12 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
         const k = btn.dataset.layer;
         STATE.layers[k] = STATE.layers[k] ? 0 : 1;
         btn.classList.toggle('on');
-        if (['ema','bb','vwap','supertrend'].includes(k)) addIndicators();
-        drawOverlay();
+        if (['ema','bb','vwap','supertrend','volPanel'].includes(k)) buildSeries();
+        else drawOverlay();
         save();
       });
     });
   };
-
   const buildLayerPanel = () => {
     const groups = [
       {name:'Structure', items:[
@@ -2208,20 +2183,20 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
         ['sweeps','Liquidity Sweeps'], ['eqhl','Equal Highs/Lows'],
         ['idm','Inducement'], ['liq','Liquidity Pools']
       ]},
-      {name:'Context', items:[
-        ['pd','Premium/Discount'], ['sessions','Killzones'], ['fib','Fibonacci'], ['wyckoff','Wyckoff']
+      {name:'Levels', items:[
+        ['pdhPdl','PDH/PDL + PWH/PWL'], ['sessionHL','Session H/L'],
+        ['pd','Premium/Discount'], ['sessions','Killzones'], ['fib','Fibonacci']
       ]},
       {name:'Indicators', items:[
         ['ema','EMA'], ['vwap','VWAP'], ['bb','Bollinger'],
-        ['supertrend','Supertrend'], ['vprofile','Vol Profile']
+        ['supertrend','Supertrend'], ['vprofile','Vol Profile'],
+        ['volPanel','Volume Panel'], ['volSpikes','Volume Spikes']
       ]}
     ];
     $('#lp').innerHTML = groups.map(g => `
       <h4>${g.name}</h4>
       <div class="grp">
-        ${g.items.map(([k,label]) =>
-          `<button data-layer="${k}" class="${STATE.layers[k]?'on':''}">${label}</button>`
-        ).join('')}
+        ${g.items.map(([k,label]) => `<button data-layer="${k}" class="${STATE.layers[k]?'on':''}">${label}</button>`).join('')}
       </div>
     `).join('') + `
       <h4>Presets</h4>
@@ -2239,32 +2214,30 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
         btn.classList.toggle('on');
         const chip = document.querySelector(`.layer-chip[data-layer="${k}"]`);
         if (chip) chip.classList.toggle('on', !!STATE.layers[k]);
-        if (['ema','bb','vwap','supertrend'].includes(k)) addIndicators();
-        drawOverlay();
+        if (['ema','bb','vwap','supertrend','volPanel'].includes(k)) buildSeries();
+        else drawOverlay();
         save();
       });
     });
-
     $('#lp-clean').addEventListener('click', () => {
       Object.keys(STATE.layers).forEach(k => STATE.layers[k] = 0);
-      ['swingLabels','bos','ob','fvg','sweeps'].forEach(k => STATE.layers[k] = 1);
-      syncLayerUI(); addIndicators(); drawOverlay(); save();
+      ['swingLabels','bos','ob','fvg','sweeps','volPanel'].forEach(k => STATE.layers[k] = 1);
+      syncLayerUI(); buildSeries(); save();
     });
     $('#lp-inst').addEventListener('click', () => {
       Object.keys(STATE.layers).forEach(k => STATE.layers[k] = 0);
-      ['swingLabels','bos','ob','fvg','sweeps','eqhl','idm','breakers','pd'].forEach(k => STATE.layers[k] = 1);
-      syncLayerUI(); addIndicators(); drawOverlay(); save();
+      ['swingLabels','bos','ob','fvg','sweeps','eqhl','idm','breakers','pd','pdhPdl','sessionHL','volPanel'].forEach(k => STATE.layers[k] = 1);
+      syncLayerUI(); buildSeries(); save();
     });
     $('#lp-all').addEventListener('click', () => {
       Object.keys(STATE.layers).forEach(k => STATE.layers[k] = 1);
-      syncLayerUI(); addIndicators(); drawOverlay(); save();
+      syncLayerUI(); buildSeries(); save();
     });
     $('#lp-none').addEventListener('click', () => {
       Object.keys(STATE.layers).forEach(k => STATE.layers[k] = 0);
-      syncLayerUI(); addIndicators(); drawOverlay(); save();
+      syncLayerUI(); buildSeries(); save();
     });
   };
-
   const syncLayerUI = () => {
     $$('#lp [data-layer]').forEach(b => b.classList.toggle('on', !!STATE.layers[b.dataset.layer]));
     $$('.layer-chip').forEach(b => b.classList.toggle('on', !!STATE.layers[b.dataset.layer]));
@@ -2277,8 +2250,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     ).join('');
     $$('#tk .tk-item').forEach(el => {
       el.addEventListener('click', async () => {
-        const sym = el.dataset.sym;
-        const asset = STATE.assets.find(a => a.s === sym);
+        const asset = STATE.assets.find(a => a.s === el.dataset.sym);
         if (asset) await setAsset(asset);
       });
     });
@@ -2288,9 +2260,9 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       try {
         const t = await fetchTicker(asset);
         if (!t) return;
-        const price = +t.lastPrice, chg = +t.priceChangePercent;
-        el.querySelector('.p').textContent = fmtPrice(price);
+        el.querySelector('.p').textContent = fmtPrice(+t.lastPrice);
         const cEl = el.querySelector('.c');
+        const chg = +t.priceChangePercent;
         cEl.textContent = fmtPct(chg);
         cEl.className = 'c ' + (chg >= 0 ? 'up' : 'down');
       } catch(e) {}
@@ -2303,9 +2275,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     });
   };
 
-  // ================================================================
-  // PRICE HEADER
-  // ================================================================
   const updatePriceHeader = (price, change) => {
     $('#px .p-main').textContent = fmtPrice(price);
     const cEl = $('#px .p-change');
@@ -2322,31 +2291,27 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   const renderRead = () => {
     const a = STATE.analysis;
     const el = $('#t-read');
-    if (!a) {
-      el.innerHTML = `<div style="color:var(--text-mute);text-align:center;padding:20px;">Analyzing market…</div>`;
-      return;
-    }
+    if (!a) { el.innerHTML = `<div style="color:var(--text-mute);text-align:center;padding:20px;">Analyzing…</div>`; return; }
     const parts = [];
     const biasCls = a.biasDir > 0 ? 'bull' : a.biasDir < 0 ? 'bear' : 'range';
-    const stateLabel = a.structure.state.replace('-', ' ').replace('bullish-reversal','Bullish Reversal').replace('bearish-reversal','Bearish Reversal');
+    const stateLabel = a.structure.state.replace(/-/g,' ');
     const stateFormatted = stateLabel.charAt(0).toUpperCase() + stateLabel.slice(1);
 
-    // Structure narrative card
     const narrative = (() => {
-      const parts = [];
+      const p = [];
       if (a.structure.lastEvent) {
         const ev = a.structure.lastEvent;
-        parts.push(`Last break: <b>${ev.kind}</b> ${ev.dir > 0 ? 'up' : 'down'} at <b>${fmtPrice(ev.level)}</b>.`);
+        p.push(`Last break: <b>${ev.kind}</b> ${ev.dir > 0 ? 'up' : 'down'} at <b>${fmtPrice(ev.level)}</b>.`);
       }
-      if (a.regime.kind.includes('uptrend')) parts.push('Price is trending upward.');
-      else if (a.regime.kind.includes('downtrend')) parts.push('Price is trending downward.');
-      else parts.push('Price is ranging.');
-      if (a.pd) parts.push(`Currently in the <b>${a.pd.zone}</b> (${(a.pd.pos*100).toFixed(0)}% of range).`);
+      if (a.regime.kind.includes('uptrend')) p.push('Price is trending upward.');
+      else if (a.regime.kind.includes('downtrend')) p.push('Price is trending downward.');
+      else p.push('Price is ranging.');
+      if (a.pd) p.push(`In <b>${a.pd.zone}</b> (${(a.pd.pos*100).toFixed(0)}% of range).`);
       if (a.sweeps.length) {
         const latest = a.sweeps[0];
-        parts.push(`Recent <b>${latest.dir > 0 ? 'bullish' : 'bearish'} sweep</b> at ${fmtPrice(latest.price)}.`);
+        p.push(`Recent <b>${latest.dir > 0 ? 'bullish' : 'bearish'} sweep</b> at ${fmtPrice(latest.price)}.`);
       }
-      return parts.join(' ');
+      return p.join(' ');
     })();
 
     parts.push(`
@@ -2364,7 +2329,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       </div>
     `);
 
-    // Key metrics grid
     const change = STATE.candles.length > 1
       ? (a.price - STATE.candles[STATE.candles.length-2].close) / STATE.candles[STATE.candles.length-2].close * 100
       : 0;
@@ -2393,7 +2357,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       </div>
     `);
 
-    // Why (reasons)
     if (a.reasons.length) {
       parts.push(`<div class="section-h">Why this bias</div>`);
       a.reasons.slice(0, 6).forEach(r => {
@@ -2403,13 +2366,11 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       });
     }
 
-    // Order Blocks
     if (a.ob.length) {
       parts.push(`<div class="section-h">Order Blocks (${a.ob.length})</div>`);
       a.ob.slice(-3).reverse().forEach(o => {
         const cls = o.dir > 0 ? 'up' : 'down';
         const dir = o.dir > 0 ? 'Bullish' : 'Bearish';
-        const distPct = o.dir > 0 ? (a.price - o.hi) / a.price * 100 : (o.lo - a.price) / a.price * 100;
         const inZone = a.price >= o.lo && a.price <= o.hi;
         parts.push(`<div class="analysis-row">
           <span class="tag ${cls}">${o.dir > 0 ? 'OB+' : 'OB-'}</span>
@@ -2420,7 +2381,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       });
     }
 
-    // Liquidity Sweeps
     if (a.sweeps.length) {
       parts.push(`<div class="section-h">Liquidity Sweeps</div>`);
       a.sweeps.slice(0, 3).forEach(sw => {
@@ -2434,19 +2394,17 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       });
     }
 
-    // Equal Highs/Lows
     const eqTotal = a.equalLevels.eqh.length + a.equalLevels.eql.length;
     if (eqTotal) {
       parts.push(`<div class="section-h">Equal Levels</div>`);
       a.equalLevels.eqh.forEach(eq => {
-        parts.push(`<div class="analysis-row"><span class="tag down">EQH</span><div class="body">Equal highs at <b>${fmtPrice(eq.price)}</b><div class="meta">Buyside liquidity · formed ${fmtTime(eq.time2)}</div></div></div>`);
+        parts.push(`<div class="analysis-row"><span class="tag down">EQH</span><div class="body">Equal highs at <b>${fmtPrice(eq.price)}</b><div class="meta">Buyside liquidity · ${fmtTime(eq.time2)}</div></div></div>`);
       });
       a.equalLevels.eql.forEach(eq => {
-        parts.push(`<div class="analysis-row"><span class="tag up">EQL</span><div class="body">Equal lows at <b>${fmtPrice(eq.price)}</b><div class="meta">Sellside liquidity · formed ${fmtTime(eq.time2)}</div></div></div>`);
+        parts.push(`<div class="analysis-row"><span class="tag up">EQL</span><div class="body">Equal lows at <b>${fmtPrice(eq.price)}</b><div class="meta">Sellside liquidity · ${fmtTime(eq.time2)}</div></div></div>`);
       });
     }
 
-    // FVGs
     if (a.fvg.length) {
       parts.push(`<div class="section-h">Fair Value Gaps (${a.fvg.length})</div>`);
       a.fvg.slice(-3).reverse().forEach(f => {
@@ -2460,7 +2418,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       });
     }
 
-    // Breakers
     if (a.breakers.length) {
       parts.push(`<div class="section-h">Breaker Blocks</div>`);
       a.breakers.forEach(b => {
@@ -2470,16 +2427,28 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       });
     }
 
-    // Inducement
     if (a.inducements.length) {
       parts.push(`<div class="section-h">Inducement</div>`);
       a.inducements.forEach(idm => {
-        const cls = idm.dir > 0 ? 'up' : 'down';
         parts.push(`<div class="analysis-row"><span class="tag neu">IDM</span><div class="body">False ${idm.dir > 0 ? 'break down' : 'break up'} at <b>${fmtPrice(idm.price)}</b> — trap before real move<div class="meta">${fmtTime(idm.time)}</div></div></div>`);
       });
     }
 
-    // Divergence
+    if (a.prevDayWeek.pdh) {
+      parts.push(`<div class="section-h">Key Levels</div>`);
+      if (a.prevDayWeek.pdh) parts.push(`<div class="analysis-row"><span class="tag neu">PDH</span><div class="body">${fmtPrice(a.prevDayWeek.pdh)}</div></div>`);
+      if (a.prevDayWeek.pdl) parts.push(`<div class="analysis-row"><span class="tag neu">PDL</span><div class="body">${fmtPrice(a.prevDayWeek.pdl)}</div></div>`);
+      if (a.prevDayWeek.pwh) parts.push(`<div class="analysis-row"><span class="tag info">PWH</span><div class="body">${fmtPrice(a.prevDayWeek.pwh)}</div></div>`);
+      if (a.prevDayWeek.pwl) parts.push(`<div class="analysis-row"><span class="tag info">PWL</span><div class="body">${fmtPrice(a.prevDayWeek.pwl)}</div></div>`);
+    }
+
+    if (a.volumeSpikes.length) {
+      parts.push(`<div class="section-h">Volume Spikes</div>`);
+      a.volumeSpikes.slice(-3).forEach(v => {
+        parts.push(`<div class="analysis-row"><span class="tag neu">VOL</span><div class="body">Spike ${fmtVol(v.volume)} (${(v.volume/v.avg).toFixed(1)}× avg)<div class="meta">${fmtTime(v.time)}</div></div></div>`);
+      });
+    }
+
     if (a.divergence.length) {
       parts.push(`<div class="section-h">RSI Divergence</div>`);
       a.divergence.forEach(d => {
@@ -2488,7 +2457,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       });
     }
 
-    // Patterns
     if (a.patterns.length) {
       parts.push(`<div class="section-h">Patterns</div>`);
       a.patterns.forEach(p => {
@@ -2509,10 +2477,8 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     scanRunning = true;
     const el = $('#t-scan');
     el.innerHTML = `<div class="section-h">Scanning · ${STATE.tf}</div><div style="color:var(--text-mute);text-align:center;padding:16px;">Loading markets…</div>`;
-
     const picks = STATE.assets.filter(a => a.group === 'Crypto Top 50').slice(0, 20);
     const results = [];
-
     for (let i = 0; i < picks.length; i++) {
       const asset = picks[i];
       try {
@@ -2556,8 +2522,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     ).join('');
     $$('#t-scan .scan-row').forEach(row => {
       row.addEventListener('click', async () => {
-        const sym = row.dataset.sym;
-        const asset = STATE.assets.find(a => a.s === sym);
+        const asset = STATE.assets.find(a => a.s === row.dataset.sym);
         if (asset) { await setAsset(asset); switchTab('read'); }
       });
     });
@@ -2611,18 +2576,19 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
           <div class="row"><span class="k">Price position</span><span class="v ${vpPos==='above VAH'?'up':vpPos==='below VAL'?'down':''}">${vpPos}</span></div>
         </div>
       ` : ''}
-      <div class="section-h">Sweeps & Inducement</div>
+      <div class="section-h">Sweeps &amp; Inducement</div>
       <div class="stat-block">
         <div class="row"><span class="k">Recent sweeps</span><span class="v">${a.sweeps.length}</span></div>
         <div class="row"><span class="k">Equal levels</span><span class="v">${a.equalLevels.eqh.length + a.equalLevels.eql.length}</span></div>
         <div class="row"><span class="k">Inducement</span><span class="v">${a.inducements.length}</span></div>
+        <div class="row"><span class="k">Volume spikes</span><span class="v">${a.volumeSpikes.length}</span></div>
         <div class="row"><span class="k">Active session</span><span class="v">${a.sessions.length ? a.sessions[a.sessions.length-1].name : 'None'}</span></div>
       </div>
     `;
   };
 
   // ================================================================
-  // STATS
+  // STATS (with futures info)
   // ================================================================
   const renderStats = () => {
     const a = STATE.analysis;
@@ -2644,7 +2610,19 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     const positionSize = riskAmt / stopPct;
     const qty = positionSize / price;
 
+    const fi = STATE.futuresInfo;
+    const futuresBlock = fi ? `
+      <div class="stat-block">
+        <h4>Futures Data</h4>
+        <div class="row"><span class="k">Funding rate</span><span class="v ${fi.fundingPct >= 0 ? 'up' : 'down'}">${fi.fundingPct.toFixed(4)}%</span></div>
+        <div class="row"><span class="k">Next funding</span><span class="v">${fmtTime(fi.nextFundingTime/1000)}</span></div>
+        <div class="row"><span class="k">Mark price</span><span class="v">${fmtPrice(fi.markPrice)}</span></div>
+        <div class="row"><span class="k">Open interest</span><span class="v">${fmtVol(fi.openInterest)}</span></div>
+      </div>
+    ` : '';
+
     el.innerHTML = `
+      ${futuresBlock}
       <div class="stat-block">
         <h4>Market Volatility</h4>
         <div class="row"><span class="k">ATR (14)</span><span class="v">${fmtPrice(a.atr)}</span></div>
@@ -2655,7 +2633,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       <div class="stat-block">
         <h4>Momentum</h4>
         <div class="row"><span class="k">RSI (14)</span><span class="v ${curRSI > 70 ? 'down' : curRSI < 30 ? 'up' : ''}">${curRSI?.toFixed(1) || '—'}</span></div>
-        <div class="row"><span class="k">RSI state</span><span class="v">${curRSI > 70 ? 'Overbought' : curRSI < 30 ? 'Oversold' : 'Neutral'}</span></div>
         <div class="row"><span class="k">EMA 20</span><span class="v">${fmtPrice(a.ema20[c.length-1])}</span></div>
         <div class="row"><span class="k">EMA 50</span><span class="v">${fmtPrice(a.ema50[c.length-1])}</span></div>
         <div class="row"><span class="k">EMA 200</span><span class="v">${fmtPrice(a.ema200[c.length-1])}</span></div>
@@ -2665,7 +2642,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
         <div class="calc-input"><label>Account equity ($)</label><input type="number" id="calc-eq" value="${equity}" step="100"></div>
         <div class="calc-input"><label>Risk per trade (%)</label><input type="number" id="calc-risk" value="${risk}" step="0.1"></div>
         <div class="row"><span class="k">Risk amount</span><span class="v">$${riskAmt.toFixed(2)}</span></div>
-        <div class="row"><span class="k">Suggested stop (1.5 ATR)</span><span class="v">${fmtPrice(price - stopDist)}</span></div>
+        <div class="row"><span class="k">Stop (1.5 ATR)</span><span class="v">${fmtPrice(price - stopDist)}</span></div>
         <div class="row"><span class="k">Stop distance</span><span class="v">${(stopPct*100).toFixed(2)}%</span></div>
         <div class="row"><span class="k">Position size</span><span class="v">$${positionSize.toFixed(0)}</span></div>
         <div class="row"><span class="k">Quantity</span><span class="v">${qty.toFixed(4)}</span></div>
@@ -2732,7 +2709,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     STATE.log.unshift({role, text, time:Date.now()});
     save();
   };
-
   const parseCommand = (text) => {
     const t = text.toLowerCase().trim();
     const out = {};
@@ -2746,9 +2722,9 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
         if (STATE.assets.find(a => a.s === cand)) { out.symbol = cand; break; }
       }
     }
-    const tfM = t.match(/\b(1m|3m|5m|15m|30m|1h|2h|4h|6h|8h|12h|1d|3d|1w|1m)\b/);
-    if (tfM) out.tf = tfM[1] === '1m' && text.includes('1M') ? '1M' : tfM[1];
-    if (/\b(show|enable|turn on|display|add)\b/.test(t) || /\b(order block|ob|fvg|fair value|imbalance|sweep)\b/.test(t)) {
+    const tfM = t.match(/\b(1m|3m|5m|15m|30m|1h|2h|4h|6h|8h|12h|1d|3d|1w)\b/);
+    if (tfM) out.tf = tfM[1];
+    if (/\b(show|enable|turn on|display|add)\b/.test(t) || /\b(order block|ob|fvg|fair value|imbalance|sweep|pdh|pwh)\b/.test(t)) {
       out.layers = [];
       if (/order block|ob\b/.test(t)) out.layers.push('ob');
       if (/fvg|fair value|imbalance/.test(t)) out.layers.push('fvg');
@@ -2760,17 +2736,18 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       if (/liq|liquidity/.test(t)) out.layers.push('liq');
       if (/fib|fibonacci/.test(t)) out.layers.push('fib');
       if (/session|killzone/.test(t)) out.layers.push('sessions');
+      if (/pdh|pdl|pwh|pwl|prev/.test(t)) out.layers.push('pdhPdl');
     }
     if (/\b(clear|reset|hide all|remove all)\b/.test(t)) out.action = 'clear';
     if (/\bscan\b/.test(t)) out.action = 'scan';
     if (/\b(analysis|setup|read|what.*setup|what.*outlook|tell me)\b/.test(t)) out.action = 'read';
     if (/\blong|buy\b/.test(t)) out.action = 'long';
     if (/\bshort|sell\b/.test(t)) out.action = 'short';
+    if (/\bsnapshot|screenshot|save.*png\b/.test(t)) out.action = 'snapshot';
     const riskM = t.match(/(?:risk|size)\s*(\d+(?:\.\d+)?)\s*%/);
     if (riskM) out.risk = +riskM[1];
     return out;
   };
-
   const runCommand = async (text) => {
     chatLog('user', escapeHTML(text));
     const cmd = parseCommand(text);
@@ -2790,14 +2767,18 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       }
       if (cmd.action === 'clear') {
         Object.keys(STATE.layers).forEach(k => STATE.layers[k] = 0);
-        syncLayerUI(); addIndicators(); drawOverlay(); save();
+        syncLayerUI(); buildSeries(); save();
         chatLog('bot', 'All overlay layers cleared.');
         return;
       }
       if (cmd.layers && cmd.layers.length) {
         cmd.layers.forEach(l => STATE.layers[l] = 1);
-        syncLayerUI(); addIndicators(); drawOverlay(); save();
+        syncLayerUI(); buildSeries(); save();
         chatLog('bot', `Enabled: ${cmd.layers.map(l => l.toUpperCase()).join(', ')}.`);
+      }
+      if (cmd.action === 'snapshot') {
+        $('#snapshot-btn').click();
+        chatLog('bot', 'Screenshot saved.');
       }
       if (cmd.action === 'read' && STATE.analysis) {
         const a = STATE.analysis;
@@ -2822,13 +2803,10 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
         const entry = a.price;
         const stop = isLong ? entry - a.atr*1.5 : entry + a.atr*1.5;
         const target = isLong ? entry + a.atr*3 : entry - a.atr*3;
-        const riskPct = cmd.risk || STATE.risk;
         chatLog('bot',
           `<b>${isLong ? 'LONG' : 'SHORT'} ${STATE.asset.n}</b><br>` +
-          `Entry: ${fmtPrice(entry)}<br>` +
-          `Stop: ${fmtPrice(stop)}<br>` +
-          `Target: ${fmtPrice(target)} (2R)<br>` +
-          `Risk: ${riskPct}% = $${(riskPct/100 * STATE.equity).toFixed(0)}`
+          `Entry: ${fmtPrice(entry)}<br>Stop: ${fmtPrice(stop)}<br>Target: ${fmtPrice(target)} (2R)<br>` +
+          `Risk: ${cmd.risk || STATE.risk}% = $${((cmd.risk || STATE.risk) / 100 * STATE.equity).toFixed(0)}`
         );
       }
       if (!cmd.symbol && !cmd.tf && !cmd.layers && !cmd.action) {
@@ -2843,7 +2821,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   // WEBSOCKET
   // ================================================================
   const connectWS = () => {
-    if (STATE.ws) { try { STATE.ws.close(); } catch(e) {} }
+    if (STATE.ws) { try { STATE.ws.close(); } catch(e) {} STATE.ws = null; }
     if (!STATE.asset) return;
     const stream = STATE.asset.s.toLowerCase() + '@kline_' + STATE.tf;
     const url = (STATE.asset.fut ? 'wss://fstream.binance.com/ws/' : 'wss://stream.binance.com:9443/ws/') + stream;
@@ -2868,8 +2846,14 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
             STATE.candles.push(candle);
             if (STATE.candles.length > 500) STATE.candles.shift();
           }
-          if (STATE.series) {
-            try { STATE.series.update(candle); } catch(err) {}
+          if (STATE.series) { try { STATE.series.update(candle); } catch(err) {} }
+          if (STATE.volSeries) {
+            try {
+              STATE.volSeries.update({
+                time: candle.time, value: candle.volume,
+                color: candle.close >= candle.open ? 'rgba(0,229,160,0.35)' : 'rgba(255,61,90,0.35)'
+              });
+            } catch(err) {}
           }
           const chg = (candle.close - candle.open) / candle.open * 100;
           updatePriceHeader(candle.close, chg);
@@ -2879,59 +2863,98 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   };
 
   // ================================================================
-  // LOAD
+  // LOAD (race-safe)
   // ================================================================
+  let loadToken = 0;
   const setAsset = async (asset) => {
     STATE.asset = asset;
     $('#sym').value = asset.s;
     await loadData();
   };
-
   const loadData = async () => {
     if (!STATE.asset) return;
+    const myToken = ++loadToken;
+    // Close existing WS
+    if (STATE.ws) { try { STATE.ws.close(); } catch(e) {} STATE.ws = null; }
+
     STATE.loading = true;
     $('#dot').className = 'loading';
     $('#skeleton').classList.add('show');
     msg(`loading ${STATE.asset.s} ${STATE.tf}…`);
+
     try {
       const candles = await fetchKlines(STATE.asset, STATE.tf, 500);
+      if (myToken !== loadToken) return; // stale load
       STATE.candles = candles;
       STATE.analysis = analyze(candles, STATE.tf);
+
+      // HTF analysis
       const htf = HTF_MAP[STATE.tf];
       if (htf && htf !== STATE.tf) {
         try {
           STATE.htf = await fetchKlines(STATE.asset, htf, 200);
+          if (myToken !== loadToken) return;
           STATE.htfAnalysis = analyze(STATE.htf, htf);
         } catch(e) {}
+      } else {
+        STATE.htfAnalysis = null;
       }
+
+      // Futures info
+      if (STATE.asset.fut) {
+        STATE.futuresInfo = await fetchFuturesInfo(STATE.asset);
+        if (myToken !== loadToken) return;
+      } else {
+        STATE.futuresInfo = null;
+      }
+
       buildSeries();
-      // fitContent only on initial load, not every time
-      try { STATE.chart.timeScale().fitContent(); } catch(e) {}
       renderRead();
       renderFlow();
       renderStats();
       renderData();
+      updateHTFBadge();
+
       const last = candles[candles.length-1];
       const prev = candles[candles.length-2];
       const chg = prev ? (last.close - prev.close) / prev.close * 100 : 0;
       updatePriceHeader(last.close, chg);
       msg(`${STATE.asset.s} · ${STATE.tf} · ${candles.length} bars`);
+
+      // Double rAF: ensure container settled before sizing + fitting
+      requestAnimationFrame(() => {
+        if (myToken !== loadToken) return;
+        if (STATE._sizeAll) STATE._sizeAll();
+        requestAnimationFrame(() => {
+          if (myToken !== loadToken) return;
+          // Set visible range: show last 150 bars + right offset
+          try {
+            const len = STATE.candles.length;
+            const from = Math.max(0, len - 150);
+            STATE.chart.timeScale().setVisibleLogicalRange({ from, to: len + 4 });
+          } catch(e) {
+            try { STATE.chart.timeScale().fitContent(); } catch(e) {}
+          }
+          drawOverlay();
+        });
+      });
+
       checkMarketStatus();
       connectWS();
       save();
     } catch(e) {
+      if (myToken !== loadToken) return;
       msg('load error: ' + e.message);
       $('#dot').className = 'err';
       toast('Failed: ' + e.message, 'err');
     } finally {
-      STATE.loading = false;
-      $('#skeleton').classList.remove('show');
+      if (myToken === loadToken) {
+        STATE.loading = false;
+        $('#skeleton').classList.remove('show');
+      }
     }
   };
 
-  // ================================================================
-  // TABS
-  // ================================================================
   const switchTab = (name) => {
     $$('#tabs button').forEach(b => b.classList.toggle('on', b.dataset.tab === name));
     ['read','chat','scan','flow','stats','data'].forEach(t => {
@@ -2943,6 +2966,8 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     if (name === 'data') renderData();
     if (name === 'scan') renderScan();
     if (name === 'read') renderRead();
+    // Force chart resize after tab change
+    setTimeout(() => { if (STATE._sizeAll) STATE._sizeAll(); }, 80);
   };
 
   // ================================================================
@@ -2960,16 +2985,17 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     $('#ty').addEventListener('change', (e) => {
       STATE.chartType = e.target.value;
       buildSeries();
-      try { STATE.chart.timeScale().fitContent(); } catch(e) {}
+      setTimeout(() => {
+        try {
+          const len = STATE.candles.length;
+          STATE.chart.timeScale().setVisibleLogicalRange({ from: Math.max(0, len-150), to: len+4 });
+        } catch(err) {}
+        drawOverlay();
+      }, 50);
       save();
     });
-    $('#fs').addEventListener('click', () => {
-      document.documentElement.classList.toggle('fs');
-      setTimeout(() => {
-        drawOverlay();
-        // Chart autoSize handles itself
-      }, 100);
-    });
+    $('#fs').addEventListener('click', toggleFullscreen);
+    $('#fs-exit').addEventListener('click', toggleFullscreen);
     $('#layers-btn').addEventListener('click', () => $('#lp').classList.toggle('open'));
     $$('#tabs button').forEach(b => b.addEventListener('click', () => switchTab(b.dataset.tab)));
     $('#go').addEventListener('click', () => {
@@ -2982,26 +3008,52 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     // Zoom controls
     $('#zoom-in').addEventListener('click', () => {
       const ts = STATE.chart.timeScale();
-      const range = ts.getVisibleLogicalRange();
-      if (!range) return;
-      const mid = (range.from + range.to) / 2;
-      const half = (range.to - range.from) / 4;
+      const r = ts.getVisibleLogicalRange();
+      if (!r) return;
+      const mid = (r.from + r.to) / 2;
+      const half = (r.to - r.from) / 4;
       ts.setVisibleLogicalRange({from: mid - half, to: mid + half});
+      setTimeout(drawOverlay, 60);
     });
     $('#zoom-out').addEventListener('click', () => {
       const ts = STATE.chart.timeScale();
-      const range = ts.getVisibleLogicalRange();
-      if (!range) return;
-      const mid = (range.from + range.to) / 2;
-      const half = (range.to - range.from) * 1.5 / 2;
+      const r = ts.getVisibleLogicalRange();
+      if (!r) return;
+      const mid = (r.from + r.to) / 2;
+      const half = (r.to - r.from) * 1.5 / 2;
       ts.setVisibleLogicalRange({from: mid - half, to: mid + half});
+      setTimeout(drawOverlay, 60);
     });
     $('#zoom-reset').addEventListener('click', () => {
-      try { STATE.chart.timeScale().fitContent(); } catch(e) {}
+      try {
+        const len = STATE.candles.length;
+        STATE.chart.timeScale().setVisibleLogicalRange({ from: Math.max(0, len-150), to: len+4 });
+      } catch(e) {}
       setTimeout(drawOverlay, 50);
     });
+    $('#scroll-latest').addEventListener('click', () => {
+      try { STATE.chart.timeScale().scrollToRealTime(); } catch(e) {}
+      setTimeout(drawOverlay, 100);
+    });
+    $('#snapshot-btn').addEventListener('click', () => {
+      if (!STATE.chart) return;
+      try {
+        const canvas = STATE.chart.takeScreenshot();
+        canvas.toBlob(blob => {
+          const a = document.createElement('a');
+          const url = URL.createObjectURL(blob);
+          a.href = url;
+          a.download = `${STATE.asset.s}-${STATE.tf}-${Date.now()}.png`;
+          a.click();
+          setTimeout(() => URL.revokeObjectURL(url), 1000);
+          toast('Screenshot saved', 'ok');
+        });
+      } catch(e) {
+        toast('Screenshot failed: ' + e.message, 'err');
+      }
+    });
 
-    // Keyboard shortcuts
+    // Keyboard
     document.addEventListener('keydown', (e) => {
       if (e.target.matches('input, select, textarea')) return;
       const tfs = {'1':'1m','2':'5m','3':'15m','4':'1h','5':'4h','6':'1d'};
@@ -3010,12 +3062,20 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
         $('#tf').value = STATE.tf;
         loadData();
       }
-      if (e.key === 'f' || e.key === 'F') $('#fs').click();
+      if (e.key === 'f' || e.key === 'F') { e.preventDefault(); toggleFullscreen(); }
       if (e.key === 'l' || e.key === 'L') $('#layers-btn').click();
       if (e.key === 'r' || e.key === 'R') $('#zoom-reset').click();
       if (e.key === '+' || e.key === '=') $('#zoom-in').click();
       if (e.key === '-') $('#zoom-out').click();
-      if (e.key === 'Escape') $('#lp').classList.remove('open');
+      if (e.key === 's' || e.key === 'S') $('#snapshot-btn').click();
+      if (e.key === 'Escape') {
+        if (document.documentElement.classList.contains('fs')) {
+          e.preventDefault();
+          toggleFullscreen();
+        } else {
+          $('#lp').classList.remove('open');
+        }
+      }
     });
 
     document.addEventListener('click', (e) => {
@@ -3023,6 +3083,12 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       if (!lp.classList.contains('open')) return;
       if (lp.contains(e.target) || btn.contains(e.target)) return;
       lp.classList.remove('open');
+    });
+
+    // Window resize / orientation
+    window.addEventListener('resize', () => { if (STATE._sizeAll) STATE._sizeAll(); });
+    window.addEventListener('orientationchange', () => {
+      setTimeout(() => { if (STATE._sizeAll) STATE._sizeAll(); }, 250);
     });
   };
 
@@ -3032,7 +3098,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   const init = async () => {
     msg('fetching symbols…');
     try { await fetchSymbols(); }
-    catch(e) { toast('Symbol fetch failed, using fallback', 'warn'); }
+    catch(e) { toast('Symbol fetch failed', 'warn'); }
 
     buildTFSelect();
     buildTypeSelect();
@@ -3054,12 +3120,10 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     chatLog('bot',
       `Welcome to <b>QCity Terminal</b>.<br>` +
       `Loaded <b>${asset.n} (${asset.s})</b> on <code>${STATE.tf}</code>.<br><br>` +
-      `Ask me: <code>show order blocks on gold 4h</code>, <code>scan crypto 15m</code>, <code>what's the setup on BTC</code>.`
+      `Try: <code>show order blocks on gold 4h</code>, <code>scan crypto 15m</code>, <code>what's the setup on BTC</code>.`
     );
 
-    // Periodic market status check
     setInterval(checkMarketStatus, 30000);
-
     msg('ready');
   };
 
